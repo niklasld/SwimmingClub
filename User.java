@@ -1,14 +1,31 @@
 public class User {
-   private String firstName, lastName;
-   private int id, pin;
+   private String firstName, lastName, username, password;
+   private int id;
+   private boolean admin = false;
+   private boolean coach = false;
    
-   public User(int id, int pin, String firstName, String lastName) {
+   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach) {
       this.id = id;
-      this.pin = pin;
       this.firstName = firstName;
       this.lastName = lastName;
+      this.username = username;
+      this.password = password;
+      this.admin = admin;
+      this.coach = coach;
    }
+   public void setAdmin(boolean admin){
+      this.admin = admin;  
+   }
+   public boolean getAdmin(){
+      return admin;
+   }   
+   public void setCoach(boolean coach){
+      this.coach = coach;  
+   }
+   public boolean getCoach(){
+      return coach;
    
+   }   
    public void setId(int id) {
       this.id = id;
    }
@@ -17,13 +34,18 @@ public class User {
       return id;
    }
    
-   public void setPin(int pin) {
-      this.pin = pin;
+   public void setUsername(String username) {
+      this.username = username;
+   }  
+   public String getUsername(){
+      return username;
    }
-   
-   public int getPin() {
-      return pin;
+   public void setPassword(String password){
+      this.password = password;
    }
+   public String getPassword(){
+      return password;
+   }   
    public void setFirstName(String firstName) {
       this.firstName = firstName;
    }

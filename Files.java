@@ -54,15 +54,15 @@ public class Files {
    public String scanString(String message) {
       scan = new Scanner(System.in);
       System.out.print(message);
-      String input = scan.next();
+      String input = scan.nextLine();
       return input;
    }
    
-   public void addToFile(String fileName, String input1, String input2, String input3, String input4) {
+   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7) {
       try{
          FileWriter fileW = new FileWriter("txt//"+fileName, true);
          BufferedWriter buffW = new BufferedWriter(fileW);
-         buffW.write(input1+" "+input2+" "+input3+" "+input4+"\n");
+         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+"\n");
          buffW.close();
       }
       catch(Exception e){
@@ -88,42 +88,97 @@ public class Files {
       while(scan.hasNext()){
          
          int id = scan.nextInt();
-         int pin = scan.nextInt();
          String firstName = scan.next();
          String lastName = scan.next();
-         users.add(new User(id,pin,firstName,lastName)); 
+         String username = scan.next();
+         String password = scan.next();
+         boolean admin = scan.nextBoolean();
+         boolean coach = scan.nextBoolean();
+         users.add(new User(id,firstName,lastName, username, password, admin, coach)); 
          counter++;
       }
    }
    
    public void addUserFromInput(ArrayList<User> users) {
       // might need to be redone, with membership extension
-      String first, last;
-      int id, pin;
+      String firstName, lastName, username, password;
+      int id;
       
-      first = scanString("Enter first name: ");
-      last = scanString("Enter last name: ");
+      firstName = scanString("Enter first name: ");
+      lastName = scanString("Enter last name: ");
+      username = scanString("Enter username: ");
+      password = scanString("Enter password: ");
       
+    
       //need method to calculate id.
-      id = 1;
-      pin = scanInt("Enter pin code: ");
+      id = users.size();
       
-      users.add(new User(id,pin,first,last)); 
+      
+           
+      users.add(new User(id,firstName,lastName, username, password, false, false)); 
       clearFile("Users.txt");
       addUsersToFile(users);
+      
    }
    
    public void addUsersToFile(ArrayList<User> users) {
-      String input1, input2, input3, input4;
+      String input1, input2, input3, input4, input5, input6, input7;
       
       for(int i = 0; i<users.size();i++) {
          input1 = ""+users.get(i).getId();
-         input2 = ""+users.get(i).getPin();
-         input3 = users.get(i).getFirstName();
-         input4 = users.get(i).getLastName();
-         
-         addToFile("Users.txt", input1, input2, input3, input4);
+         input2 = users.get(i).getFirstName();
+         input3 = users.get(i).getLastName();
+         input4 = users.get(i).getUsername();
+         input5 = users.get(i).getPassword();
+         input6 = ""+users.get(i).getAdmin();
+         input7 = ""+users.get(i).getCoach();
+         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7);
       }
    }
- 
+   
+   //Records specific methods
+   public void readRecords(ArrayList<Record> records){
+      int counter = 0;
+      while(scan.hasNext()){
+         
+         String discipline = scan.next();
+         String date = scan.next();
+         int minutes = scan.nextInt();
+         int seconds = scan.nextInt();
+         int miliseconds = scan.nextInt();
+         int swimId = scan.nextInt();
+         records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
+         counter++;
+      }
+   
+   }
+   public void addRecordsToFile(ArrayList<Record> records) {
+      String input1, input2, input3, input4, input5, input6;
+      
+      for(int i = 0; i<records.size();i++) {
+         input1 = records.get(i).getDiscipline();
+         input2 = records.get(i).getDate();
+         input3 = ""+records.get(i).getMinutes();
+         input4 = ""+records.get(i).getSeconds();
+         input5 = ""+records.get(i).getMiliseconds();
+         input6 = ""+records.get(i).getSwimId();
+         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"");
+      }
+   }
+   public void addRecordFromInput(ArrayList<Record> records) {
+            String discipline, date;
+      int minutes, seconds, miliseconds, swimId;
+      
+      discipline = scanString("Enter swim discipline: ").replace(" ", "_");
+      date = scanString("Enter date: ").replace(" ", "_");
+      minutes = scanInt("Enter minutes: ");
+      seconds = scanInt("Enter seconds: ");
+      miliseconds = scanInt("Enter miliseconds: ");
+      swimId = scanInt("Enter swimmer Id: "); 
+           
+      records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
+      clearFile("Records.txt");
+      addRecordsToFile(records);  
+   }
+   
 }
