@@ -52,9 +52,11 @@ public class Menu{
             switch(choice){
                case 1:
                   //check lane record (user)
+                  showRecords(records);
                   break;
                case 2:
                   //check personal best
+                  checkPersonalBest(records);
                   break;
                case 3: 
                   //check all time club best
@@ -92,7 +94,7 @@ public class Menu{
       }
    }
    
-   
+
    
    
    public void login(ArrayList<User> users){
@@ -102,7 +104,7 @@ public class Menu{
       password = file.scanString("choose password: ");
    
       for(int i = 0; i<users.size();i++){
-         if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)){
+         if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) && users.get(i).getActive() == true){
             this.loginMatch = true;
             this.loginId = i;
             if(users.get(i).getAdmin() == true){
@@ -116,5 +118,62 @@ public class Menu{
       
       
       }
-   }     
+   }
+   public void showRecords(ArrayList<Record> records) {
+      for(Record record: records){
+         if(record.getSwimId() == loginId){
+            System.out.print(record.getDiscipline()+" ");
+            System.out.print(record.getDate()+" ");
+            System.out.print(record.getMinutes()+" ");
+            System.out.print(record.getSeconds()+" ");
+            System.out.println(record.getMiliseconds());
+         }
+      } 
+   }
+   
+   public void checkPersonalBest(ArrayList<Record> records) {
+      // missing shows time for each discipline
+      
+      String discipline = "Nothingggg";
+      int min=99;
+      int sec=9999;
+      int mili=999;
+      
+      for(Record record: records){
+         if(record.getSwimId() == loginId){
+            /*System.out.print(record.getDiscipline()+" ");
+            System.out.print(record.getDate()+" ");
+            System.out.print(record.getMinutes()+" ");
+            System.out.print(record.getSeconds()+" ");
+            System.out.println(record.getMiliseconds());*/
+            
+            discipline = record.getDiscipline();
+            
+            if(discipline.equals(record.getDiscipline())) {
+               if(min > record.getMinutes()) {
+                  min = record.getMinutes(); 
+                  sec = record.getSeconds();
+                  mili = record.getMiliseconds();
+                  discipline = record.getDiscipline();
+               } else if(min == record.getMinutes()){
+                  if(sec > record.getSeconds()){
+                     min = record.getMinutes(); 
+                     sec = record.getSeconds();
+                     mili = record.getMiliseconds();
+                     discipline = record.getDiscipline();
+                  } else if (sec == record.getSeconds()){
+                     if(mili > record.getMiliseconds()){
+                        min = record.getMinutes(); 
+                        sec = record.getSeconds();
+                        mili = record.getMiliseconds();
+                        discipline = record.getDiscipline();
+                     }
+                  }
+               }
+            }
+         }
+      }
+      System.out.println("Discipline: "+discipline+"\nMin: "+min+"\tSec:"+sec+"\tMilisec:"+mili+"\n");
+   }
+       
 }

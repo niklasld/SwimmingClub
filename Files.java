@@ -51,6 +51,37 @@ public class Files {
       return input;
    }
    
+   public double scanDouble(String message) {
+      scan = new Scanner(System.in);
+      double input = -1;
+      
+      while(input == -1) {
+         System.out.println(message);
+         if(scan.hasNextDouble()) {
+            input = scan.nextDouble();
+         }
+         else {
+            System.out.println("Error input wasnt a double number");
+         }
+      }
+      
+      return input;
+   }
+   
+   public boolean scanBoolean(String message) {
+      scan = new Scanner(System.in);
+      boolean input = false;
+      System.out.println(message);
+      if(scan.hasNextBoolean()) {
+         input = scan.nextBoolean();
+      }
+      else {
+         System.out.println("Error input wasnt a boolean");
+      }
+   
+      return input;
+   }
+   
    public String scanString(String message) {
       scan = new Scanner(System.in);
       System.out.print(message);
@@ -58,11 +89,11 @@ public class Files {
       return input;
    }
    
-   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7, String input8) {
+   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7, String input8, String input9) {
       try{
          FileWriter fileW = new FileWriter("txt//"+fileName, true);
          BufferedWriter buffW = new BufferedWriter(fileW);
-         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+" "+input8+ "\n");
+         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+" "+input8+" "+input9+ "\n");
          buffW.close();
       }
       catch(Exception e){
@@ -85,6 +116,7 @@ public class Files {
    //User specific methods
    public void readUsers(ArrayList<User> users) {
       int counter = 0;
+      
       while(scan.hasNext()){
          
          int id = scan.nextInt();
@@ -94,8 +126,9 @@ public class Files {
          String password = scan.next();
          boolean admin = scan.nextBoolean();
          boolean coach = scan.nextBoolean();
+         boolean active = scan.nextBoolean();
          int age = scan.nextInt();
-         users.add(new User(id,firstName,lastName, username, password, admin, coach,age)); 
+         users.add(new User(id,firstName,lastName, username, password, admin, coach, active, age)); 
          counter++;
       }
    }
@@ -117,14 +150,14 @@ public class Files {
       
       
            
-      users.add(new User(id,firstName,lastName, username, password, false, false,age)); 
+      users.add(new User(id,firstName,lastName, username, password, false, false, true, age)); 
       clearFile("Users.txt");
       addUsersToFile(users);
       
    }
    
    public void addUsersToFile(ArrayList<User> users) {
-      String input1, input2, input3, input4, input5, input6, input7, input8;
+      String input1, input2, input3, input4, input5, input6, input7, input8, input9;
       
       for(int i = 0; i<users.size();i++) {
          input1 = ""+users.get(i).getId();
@@ -134,8 +167,9 @@ public class Files {
          input5 = users.get(i).getPassword();
          input6 = ""+users.get(i).getAdmin();
          input7 = ""+users.get(i).getCoach();
-         input8 = ""+users.get(i).getAge();
-         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7, input8);
+         input8 = ""+users.get(i).getActive();
+         input9 = ""+users.get(i).getAge();
+         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7, input8, input9);
       }
    }
    
@@ -165,7 +199,7 @@ public class Files {
          input4 = ""+records.get(i).getSeconds();
          input5 = ""+records.get(i).getMiliseconds();
          input6 = ""+records.get(i).getSwimId();
-         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"","");
+         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"","","");
       }
    }
    public void addRecordFromInput(ArrayList<Record> records) {

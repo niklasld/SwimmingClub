@@ -1,5 +1,5 @@
-0 asd asd pp p2p false false 15
-1 Niklas Dueholm ND nd42 false false 11
-2 gustav arnoldsen 1 1 true true 12
-3 Arnold Schawrz svømmerelite godsvømmerklart false false 20
-4 7 8 1 1 false false 46
+0 asd asd pp p2p false false true 15
+1 Niklas Dueholm ND nd42 false false true 11
+2 gustav arnoldsen 2 2 true true true 12
+3 Arnold Schawrz svømmerelite godsvømmerklart false false true 20
+4 7 8 1 1 false false true 46
