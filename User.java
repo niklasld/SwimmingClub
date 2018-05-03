@@ -3,8 +3,8 @@ public class User {
    private int id;
    private boolean admin = false;
    private boolean coach = false;
-   
-   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach) {
+   private int age;
+   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach, int age) {
       this.id = id;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -12,7 +12,15 @@ public class User {
       this.password = password;
       this.admin = admin;
       this.coach = coach;
+      this.age = age;
    }
+   public void setAge(int age){
+      this.age = age;  
+   }
+   public int getAge(){
+      return age;
+   }
+   
    public void setAdmin(boolean admin){
       this.admin = admin;  
    }

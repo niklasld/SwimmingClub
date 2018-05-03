@@ -58,11 +58,11 @@ public class Files {
       return input;
    }
    
-   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7) {
+   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7, String input8) {
       try{
          FileWriter fileW = new FileWriter("txt//"+fileName, true);
          BufferedWriter buffW = new BufferedWriter(fileW);
-         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+"\n");
+         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+" "+input8+ "\n");
          buffW.close();
       }
       catch(Exception e){
@@ -94,7 +94,8 @@ public class Files {
          String password = scan.next();
          boolean admin = scan.nextBoolean();
          boolean coach = scan.nextBoolean();
-         users.add(new User(id,firstName,lastName, username, password, admin, coach)); 
+         int age = scan.nextInt();
+         users.add(new User(id,firstName,lastName, username, password, admin, coach,age)); 
          counter++;
       }
    }
@@ -102,12 +103,13 @@ public class Files {
    public void addUserFromInput(ArrayList<User> users) {
       // might need to be redone, with membership extension
       String firstName, lastName, username, password;
-      int id;
+      int id, age;
       
       firstName = scanString("Enter first name: ");
       lastName = scanString("Enter last name: ");
       username = scanString("Enter username: ");
       password = scanString("Enter password: ");
+      age = scanInt("Enter your age");
       
     
       //need method to calculate id.
@@ -115,14 +117,14 @@ public class Files {
       
       
            
-      users.add(new User(id,firstName,lastName, username, password, false, false)); 
+      users.add(new User(id,firstName,lastName, username, password, false, false,age)); 
       clearFile("Users.txt");
       addUsersToFile(users);
       
    }
    
    public void addUsersToFile(ArrayList<User> users) {
-      String input1, input2, input3, input4, input5, input6, input7;
+      String input1, input2, input3, input4, input5, input6, input7, input8;
       
       for(int i = 0; i<users.size();i++) {
          input1 = ""+users.get(i).getId();
@@ -132,7 +134,8 @@ public class Files {
          input5 = users.get(i).getPassword();
          input6 = ""+users.get(i).getAdmin();
          input7 = ""+users.get(i).getCoach();
-         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7);
+         input8 = ""+users.get(i).getAge();
+         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7, input8);
       }
    }
    
@@ -162,7 +165,7 @@ public class Files {
          input4 = ""+records.get(i).getSeconds();
          input5 = ""+records.get(i).getMiliseconds();
          input6 = ""+records.get(i).getSwimId();
-         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"");
+         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"","");
       }
    }
    public void addRecordFromInput(ArrayList<Record> records) {
