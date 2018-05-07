@@ -56,10 +56,14 @@ public class Menu{
                   break;
                case 2:
                   //check personal best
-                  checkPersonalBest(records);
+                  checkPersonalBest(records, users, "200m_Crawl");
+                  checkPersonalBest(records, users, "500m_Crawl");
+                  checkPersonalBest(records, users, "200m_Freestyle");
+                  checkPersonalBest(records, users, "500m_Freestyle");
                   break;
                case 3: 
                   //check all time club best
+                  checkClubBest(users, records);
                   break;
                case 4: 
                   // check your coach
@@ -74,13 +78,15 @@ public class Menu{
                   break;
                case 7:
                   // search swimmers
-                  System.out.println("temp til søgning kommer addrecord");
+                  System.out.println("temp til soegning kommer addrecord");
                   file.addRecordFromInput(records);
+                  file.updateFiles(users, records);
                   break;
                case 8:
                   // create user (admin menu)
                   if(admin == true) {
                      file.addUserFromInput(users);
+                     file.updateFiles(users, records);
                   }
                   break;
                case 9:
@@ -131,49 +137,101 @@ public class Menu{
       } 
    }
    
-   public void checkPersonalBest(ArrayList<Record> records) {
+   public void checkPersonalBest(ArrayList<Record> records, ArrayList<User> users, String discipline) {
       // missing shows time for each discipline
       
-      String discipline = "Nothingggg";
+      //discipline = "Nothingggg";
       int min=99;
       int sec=9999;
       int mili=999;
       
+      String swimmer = ""+users.get(loginId).getFirstName()+" "+users.get(loginId).getLastName();
+      
       for(Record record: records){
-         if(record.getSwimId() == loginId){
-            /*System.out.print(record.getDiscipline()+" ");
-            System.out.print(record.getDate()+" ");
-            System.out.print(record.getMinutes()+" ");
-            System.out.print(record.getSeconds()+" ");
-            System.out.println(record.getMiliseconds());*/
-            
-            discipline = record.getDiscipline();
+         if(record.getSwimId() == loginId && discipline.equals(record.getDiscipline())){
             
             if(discipline.equals(record.getDiscipline())) {
                if(min > record.getMinutes()) {
                   min = record.getMinutes(); 
                   sec = record.getSeconds();
                   mili = record.getMiliseconds();
-                  discipline = record.getDiscipline();
-               } else if(min == record.getMinutes()){
+               } 
+               else if(min == record.getMinutes()){
                   if(sec > record.getSeconds()){
                      min = record.getMinutes(); 
                      sec = record.getSeconds();
                      mili = record.getMiliseconds();
-                     discipline = record.getDiscipline();
-                  } else if (sec == record.getSeconds()){
+                  } 
+                  else if (sec == record.getSeconds()){
                      if(mili > record.getMiliseconds()){
                         min = record.getMinutes(); 
                         sec = record.getSeconds();
                         mili = record.getMiliseconds();
-                        discipline = record.getDiscipline();
                      }
                   }
                }
             }
          }
       }
-      System.out.println("Discipline: "+discipline+"\nMin: "+min+"\tSec:"+sec+"\tMilisec:"+mili+"\n");
+      if(min == 99) {
+        System.out.println("No record for: "+"Discipline: "+discipline.replace("_"," ")+"\n"); 
+         
+      }
+      else {
+         System.out.println("Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+swimmer+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n");
+      }
+   }
+   
+   public void checkClubBest(ArrayList<User> users, ArrayList<Record> records) {
+      // missing Dates correctly 
+      System.out.println(getBestTimes(records,users, "200m_Crawl"));
+      System.out.println(getBestTimes(records,users, "500m_Crawl"));
+      System.out.println(getBestTimes(records,users, "200m_Freestyle"));
+      System.out.println(getBestTimes(records,users, "500m_Freestyle"));
+      
+   }
+   
+   public String getBestTimes (ArrayList<Record> records,ArrayList<User> users, String discipline) {
+      int min=999;
+      int sec=9999;
+      int mili=999;
+      String swimmer = "blANK";
+      
+      for(Record record: records){
+         //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+         if(discipline.equals(record.getDiscipline())) {
+            if(min > record.getMinutes()) {
+               min = record.getMinutes(); 
+               sec = record.getSeconds();
+               mili = record.getMiliseconds();
+               discipline = record.getDiscipline();
+               swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+            } 
+            else if(min == record.getMinutes()){
+               if(sec > record.getSeconds()){
+                  min = record.getMinutes(); 
+                  sec = record.getSeconds();
+                  mili = record.getMiliseconds();
+                  discipline = record.getDiscipline();
+                  swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+               } 
+               else if (sec == record.getSeconds()){
+                  if(mili > record.getMiliseconds()){
+                     min = record.getMinutes(); 
+                     sec = record.getSeconds();
+                     mili = record.getMiliseconds();
+                     discipline = record.getDiscipline();
+                     swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+                  }
+               }
+            }
+         } 
+      }
+      String time = "Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+swimmer+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n";
+      return time;
    }
        
 }

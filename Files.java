@@ -89,15 +89,42 @@ public class Files {
       return input;
    }
    
-   public void addToFile(String fileName, String input1, String input2, String input3, String input4, String input5, String input6, String input7, String input8, String input9) {
+   public void addToFile(String fileName, String test) {
       try{
          FileWriter fileW = new FileWriter("txt//"+fileName, true);
          BufferedWriter buffW = new BufferedWriter(fileW);
-         buffW.write(input1+" "+input2+" "+input3+" "+input4+" "+ input5+" " +input6+" "+input7+" "+input8+" "+input9+ "\n");
+         buffW.write(test);
          buffW.close();
       }
       catch(Exception e){
          System.out.println("Error writing to "+fileName+" (Files.java method: addToFile)");
+      }
+   }
+   
+   public void updateFiles(ArrayList<User> users, ArrayList<Record> records) {
+      String infoString;
+      clearFile("Users.txt");
+      for(int i = 0; i<users.size();i++) {
+         infoString = ""+users.get(i).getId();
+         infoString += " "+users.get(i).getFirstName();
+         infoString += " "+users.get(i).getLastName();
+         infoString += " "+users.get(i).getUsername();
+         infoString += " "+users.get(i).getPassword();
+         infoString += " "+users.get(i).getAdmin();
+         infoString += " "+users.get(i).getCoach();
+         infoString += " "+users.get(i).getActive();
+         infoString += " "+users.get(i).getAge()+"\n";
+         addToFile("Users.txt", infoString);
+      }
+      clearFile("Records.txt");
+      for(int i = 0; i<records.size();i++) {
+         infoString = ""+records.get(i).getDiscipline();
+         infoString += " "+records.get(i).getDate();
+         infoString += " "+records.get(i).getMinutes();
+         infoString += " "+records.get(i).getSeconds();
+         infoString += " "+records.get(i).getMiliseconds();
+         infoString += " "+records.get(i).getSwimId()+"\n";
+         addToFile("Records.txt", infoString);
       }
    }
    
@@ -134,7 +161,6 @@ public class Files {
    }
    
    public void addUserFromInput(ArrayList<User> users) {
-      // might need to be redone, with membership extension
       String firstName, lastName, username, password;
       int id, age;
       
@@ -143,20 +169,16 @@ public class Files {
       username = scanString("Enter username: ");
       password = scanString("Enter password: ");
       age = scanInt("Enter your age");
-      
-    
-      //need method to calculate id.
+  
       id = users.size();
-      
-      
-           
+       
       users.add(new User(id,firstName,lastName, username, password, false, false, true, age)); 
-      clearFile("Users.txt");
-      addUsersToFile(users);
+      //clearFile("Users.txt");
+      //addUsersToFile(users);
       
    }
    
-   public void addUsersToFile(ArrayList<User> users) {
+   /*public void addUsersToFile(ArrayList<User> users) {
       String input1, input2, input3, input4, input5, input6, input7, input8, input9;
       
       for(int i = 0; i<users.size();i++) {
@@ -171,7 +193,7 @@ public class Files {
          input9 = ""+users.get(i).getAge();
          addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7, input8, input9);
       }
-   }
+   }*/
    
    //Records specific methods
    public void readRecords(ArrayList<Record> records){
@@ -189,7 +211,7 @@ public class Files {
       }
    
    }
-   public void addRecordsToFile(ArrayList<Record> records) {
+   /*public void addRecordsToFile(ArrayList<Record> records) {
       String input1, input2, input3, input4, input5, input6;
       
       for(int i = 0; i<records.size();i++) {
@@ -201,9 +223,9 @@ public class Files {
          input6 = ""+records.get(i).getSwimId();
          addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"","","");
       }
-   }
+   }*/
    public void addRecordFromInput(ArrayList<Record> records) {
-            String discipline, date;
+      String discipline, date;
       int minutes, seconds, miliseconds, swimId;
       
       discipline = scanString("Enter swim discipline: ").replace(" ", "_");
@@ -214,8 +236,8 @@ public class Files {
       swimId = scanInt("Enter swimmer Id: "); 
            
       records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
-      clearFile("Records.txt");
-      addRecordsToFile(records);  
+      //clearFile("Records.txt");
+      //addRecordsToFile(records);  
    }
    
 }
