@@ -3,3 +3,4 @@
 2 gustav arnoldsen 2 2 true true true 12
 3 Arnold Schawrz svømmerelite godsvømmerklart false false true 20
 4 7 8 1 1 false false true 46
+5 cookie monster 3 3 false false true 99
