@@ -101,7 +101,7 @@ public class Files {
       }
    }
    
-   public void updateFiles(ArrayList<User> users, ArrayList<Record> records) {
+   public void updateFiles(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations) {
       String infoString;
       clearFile("Users.txt");
       for(int i = 0; i<users.size();i++) {
@@ -126,6 +126,15 @@ public class Files {
          infoString += " "+records.get(i).getSwimId()+"\n";
          addToFile("Records.txt", infoString);
       }
+      clearFile ("CoachRelation.txt");
+      for(int i = 0; i<coachRelations.size(); i++){
+         infoString = ""+coachRelations.get(i).getSwimId();
+         infoString = " "+coachRelations.get(i).getCoachId()+"\n";
+         addToFile("CoachRelation.txt", infoString);
+         
+               
+               
+        }
    }
    
    public void clearFile(String fileName){
@@ -173,27 +182,10 @@ public class Files {
       id = users.size();
        
       users.add(new User(id,firstName,lastName, username, password, false, false, true, age)); 
-      //clearFile("Users.txt");
-      //addUsersToFile(users);
       
    }
    
-   /*public void addUsersToFile(ArrayList<User> users) {
-      String input1, input2, input3, input4, input5, input6, input7, input8, input9;
-      
-      for(int i = 0; i<users.size();i++) {
-         input1 = ""+users.get(i).getId();
-         input2 = users.get(i).getFirstName();
-         input3 = users.get(i).getLastName();
-         input4 = users.get(i).getUsername();
-         input5 = users.get(i).getPassword();
-         input6 = ""+users.get(i).getAdmin();
-         input7 = ""+users.get(i).getCoach();
-         input8 = ""+users.get(i).getActive();
-         input9 = ""+users.get(i).getAge();
-         addToFile("Users.txt", input1, input2, input3, input4, input5, input6, input7, input8, input9);
-      }
-   }*/
+
    
    //Records specific methods
    public void readRecords(ArrayList<Record> records){
@@ -211,19 +203,7 @@ public class Files {
       }
    
    }
-   /*public void addRecordsToFile(ArrayList<Record> records) {
-      String input1, input2, input3, input4, input5, input6;
-      
-      for(int i = 0; i<records.size();i++) {
-         input1 = records.get(i).getDiscipline();
-         input2 = records.get(i).getDate();
-         input3 = ""+records.get(i).getMinutes();
-         input4 = ""+records.get(i).getSeconds();
-         input5 = ""+records.get(i).getMiliseconds();
-         input6 = ""+records.get(i).getSwimId();
-         addToFile("Records.txt", input1, input2, input3, input4, input5, input6,"","","");
-      }
-   }*/
+
    public void addRecordFromInput(ArrayList<Record> records) {
       String discipline, date;
       int minutes, seconds, miliseconds, swimId;
@@ -236,8 +216,20 @@ public class Files {
       swimId = scanInt("Enter swimmer Id: "); 
            
       records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
-      //clearFile("Records.txt");
-      //addRecordsToFile(records);  
    }
+   
+   //CoachRelations specific methods
+   
+   public void readCoach(ArrayList<CoachRelation> coachRelations){
+      int counter = 0;
+      while (scan.hasNext()){
+         int swimId  = scan.nextInt();
+         int coachId = scan.nextInt();
+         
+         coachRelations.add(new CoachRelation(swimId ,coachId));
+      
+      }   
+   }
+
    
 }

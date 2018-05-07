@@ -8,17 +8,24 @@ public class SwimmingClub {
       
       ArrayList<User> users = new ArrayList<User>();
       ArrayList<Record> records = new ArrayList<Record>();
+      ArrayList<CoachRelation> coachRelations = new ArrayList<CoachRelation>();
       
       file.createFile("Users.txt");
       file.openFile("Users.txt");
       file.readUsers(users);
       file.closeFile();
+      
       file.createFile("Records.txt");
       file.openFile("Records.txt");
       file.readRecords(records);
       file.closeFile();
       
-      menu.startMenu(users, records);
+      file.createFile("CoachRelations.txt");
+      file.openFile("CoachRelations.txt");
+      file.readCoach(coachRelations);
+      file.closeFile();
+      
+      menu.startMenu(users, records, coachRelations);
       
    }
 }

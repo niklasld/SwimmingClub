@@ -17,7 +17,7 @@ public class Menu{
       }
     
    }
-   public void startMenu(ArrayList<User> users, ArrayList<Record> records){
+   public void startMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
       int choice = -1;
       while(run == 1){
          choice = file.scanInt("\t1. Log in \n\t2. Quit\n");
@@ -25,7 +25,7 @@ public class Menu{
          
             case 1:
                login(users);
-               mainMenu(users, records);
+               mainMenu(users, records, coachRelations);
                break;
             case 2:
                run=0;
@@ -37,7 +37,7 @@ public class Menu{
       }
    }
    
-   public void mainMenu(ArrayList<User> users, ArrayList<Record> records){
+   public void mainMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
       if(loginMatch==true) {
          int choice = -1;
          while(run ==1) {
@@ -67,6 +67,7 @@ public class Menu{
                   break;
                case 4: 
                   // check your coach
+                  checkCoach(users, coachRelations);
                   break;
                case 5: 
                   // quit
@@ -78,15 +79,15 @@ public class Menu{
                   break;
                case 7:
                   // search swimmers
-                  System.out.println("temp til soegning kommer addrecord");
+                  System.out.println("temp til soegning kommer addrecord, skal også have add swimmer as student");
                   file.addRecordFromInput(records);
-                  file.updateFiles(users, records);
+                  file.updateFiles(users, records, coachRelations);
                   break;
                case 8:
                   // create user (admin menu)
                   if(admin == true) {
                      file.addUserFromInput(users);
-                     file.updateFiles(users, records);
+                     file.updateFiles(users, records, coachRelations);
                   }
                   break;
                case 9:
@@ -233,5 +234,13 @@ public class Menu{
       String time = "Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+swimmer+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n";
       return time;
    }
-       
+  
+   public void checkCoach(ArrayList<User> users , ArrayList<CoachRelation> coachRelations){
+      for(int i = 0; i<coachRelations.size(); i++){
+         if(coachRelations.get(i).getSwimId()==loginId) {
+            System.out.println(users.get(loginId).getFirstName()+" "+ users.get(loginId).getLastName()+" Coach: "+ users.get(coachRelations.get(i).getCoachId()).getFirstName()+" "+users.get(coachRelations.get(i).getCoachId()).getLastName());
+            
+         }
+      }
+   }    
 }
