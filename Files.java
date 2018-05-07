@@ -126,11 +126,11 @@ public class Files {
          infoString += " "+records.get(i).getSwimId()+"\n";
          addToFile("Records.txt", infoString);
       }
-      clearFile ("CoachRelation.txt");
+      clearFile ("CoachRelations.txt");
       for(int i = 0; i<coachRelations.size(); i++){
          infoString = ""+coachRelations.get(i).getSwimId();
-         infoString = " "+coachRelations.get(i).getCoachId()+"\n";
-         addToFile("CoachRelation.txt", infoString);
+         infoString += " "+coachRelations.get(i).getCoachId()+"\n";
+         addToFile("CoachRelations.txt", infoString);
          
                
                
@@ -204,16 +204,15 @@ public class Files {
    
    }
 
-   public void addRecordFromInput(ArrayList<Record> records) {
+   public void addRecordFromInput(int swimId, ArrayList<Record> records) {
       String discipline, date;
-      int minutes, seconds, miliseconds, swimId;
+      int minutes, seconds, miliseconds;
       
       discipline = scanString("Enter swim discipline: ").replace(" ", "_");
       date = scanString("Enter date: ").replace(" ", "_");
       minutes = scanInt("Enter minutes: ");
       seconds = scanInt("Enter seconds: ");
       miliseconds = scanInt("Enter miliseconds: ");
-      swimId = scanInt("Enter swimmer Id: "); 
            
       records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
    }

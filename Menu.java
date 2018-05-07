@@ -79,9 +79,10 @@ public class Menu{
                   break;
                case 7:
                   // search swimmers
+                  swimSearch(users, records, coachRelations);
                   System.out.println("temp til soegning kommer addrecord, skal også have add swimmer as student");
-                  file.addRecordFromInput(records);
-                  file.updateFiles(users, records, coachRelations);
+                  //file.addRecordFromInput(records);
+                  //file.updateFiles(users, records, coachRelations);
                   break;
                case 8:
                   // create user (admin menu)
@@ -126,6 +127,7 @@ public class Menu{
       
       }
    }
+
    public void showRecords(ArrayList<Record> records) {
       for(Record record: records){
          if(record.getSwimId() == loginId){
@@ -136,6 +138,113 @@ public class Menu{
             System.out.println(record.getMiliseconds());
          }
       } 
+   }
+
+   public void swimSearch(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+      String search = file.scanString("Enter swimmer name; ");
+      boolean result = false;
+      int resCount = 0;
+
+      search = search.toLowerCase();
+
+      for(User u: users){
+         if(u.getFirstName().toLowerCase().contains(search) || u.getLastName().toLowerCase().contains(search)){
+            System.out.println(u.getId()+": "+u.getFirstName()+" "+u.getLastName());
+            result = true;
+            resCount++;
+         }
+      }
+
+      if(result == true){
+         System.out.println(resCount+" matched your search input.\n");
+
+         System.out.println("Select the id number for the swimmer you want to edit");
+         //file.addRecordFromInput(records);
+
+         int selectId = file.scanInt("");
+         editSwimmer(selectId, users, records, coachRelations);
+
+      } else {
+         System.out.println("No match!");
+      }
+   }
+
+   public void editSwimmer(int swimId, ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+      System.out.println("edit " + users.get(swimId).getFirstName() + " " + users.get(swimId).getLastName() + "\n");
+
+
+
+      for (boolean runEdit = true; runEdit == true;) {
+
+         System.out.println("1. Edit firstname");
+         System.out.println("2. Edit lastname");
+         System.out.println("3. Edit username");
+         System.out.println("4. Edit password");
+         System.out.println("5. Edit active");
+         System.out.println("6. Edit age");
+         System.out.println("7. Add coach");
+         System.out.println("8. Add record");
+         System.out.println("9. Exit");
+
+         int select = file.scanInt("Select option: ");
+
+         switch (select) {
+            case 1:
+               //edit firstname
+               String firstName = file.scanString("Enter new firstname: ");
+               users.get(swimId).setFirstName(firstName);
+               break;
+            case 2:
+               //edit lastname
+               String lastName = file.scanString("Enter new lastname: ");
+               users.get(swimId).setLastName(lastName);
+               break;
+            case 3:
+               //edit username
+               String username = file.scanString("Enter new username: ");
+               users.get(swimId).setUsername(username);
+               break;
+            case 4:
+               //edit password
+               String password = file.scanString("Enter new password: ");
+               users.get(swimId).setPassword(password);
+               break;
+            case 5:
+               //edit active
+               boolean active = file.scanBoolean("Active: true/false: ");
+               users.get(swimId).setActive(active);
+               break;
+            case 6:
+               //edit age
+               int age = file.scanInt("Enter new age: ");
+               users.get(swimId).setAge(age);
+               break;
+            case 7:
+               //add coach
+               break;
+            case 8:
+               //add record
+               file.addRecordFromInput(swimId, records);
+               file.updateFiles(users, records, coachRelations);
+               break;
+            case 9:
+               //exit
+               runEdit = false;
+               break;
+            default:
+               System.out.println("Invalid action");
+               break;
+         }
+
+      }
+
+      /*for(User u: users){
+         if(u.getId() == swimId){
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+
+         }
+      }*/
    }
    
    public void checkPersonalBest(ArrayList<Record> records, ArrayList<User> users, String discipline) {
