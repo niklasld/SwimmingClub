@@ -75,7 +75,7 @@ public class Menu{
                   break;
                case 6: 
                   //Show top 5
-
+                  checkTopFive(users, records);
                   break;
                case 7:
                   // search swimmers
@@ -294,10 +294,12 @@ public class Menu{
    
    public void checkClubBest(ArrayList<User> users, ArrayList<Record> records) {
       // missing Dates correctly 
-      System.out.println(getBestTimes(records,users, "200m_Crawl"));
+      /*for (String best: getBestTimes(records,users, "200m_Crawl")) {
+         System.out.println(best);
+      }
       System.out.println(getBestTimes(records,users, "500m_Crawl"));
       System.out.println(getBestTimes(records,users, "200m_Freestyle"));
-      System.out.println(getBestTimes(records,users, "500m_Freestyle"));
+      System.out.println(getBestTimes(records,users, "500m_Freestyle"));*/
       
    }
    public void checkTopFive(ArrayList<User> users, ArrayList<Record> records){
@@ -321,58 +323,80 @@ public class Menu{
             System.out.println("Invalid action");
             break;             
       }
-   
+
+      for (String best: getFiveBest(records, users, discipline)){
+         System.out.println(best);
+      }
+
    }
-   public String getBestTimes (ArrayList<Record> records,ArrayList<User> users, String discipline) {
+
+   public String[] getFiveBest (ArrayList<Record> records, ArrayList<User> users, String discipline) {
       int min=999;
       int sec=9999;
       int mili=999;
-      String swimmer = "blANK";
-      
-      /*
+      int index=9999;
       String[] top5 = new String[5];
+      String swimmer = "blANK";
+      //ArrayList<Record> topFive = (ArrayList<Record>)records.clone();
+      ArrayList<Record> topFive = new ArrayList<>(records);
+      //topFive = records;
+      /*
+
       
       for(int i = 0; i<5;i++){
       
       }
       
           */
-      
-      for(Record record: records){
-         //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
-         if(discipline.equals(record.getDiscipline())) {
-            if(min > record.getMinutes()) {
-               min = record.getMinutes(); 
-               sec = record.getSeconds();
-               mili = record.getMiliseconds();
-               discipline = record.getDiscipline();
-               swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
 
-            } 
-            else if(min == record.getMinutes()){
-               if(sec > record.getSeconds()){
-                  min = record.getMinutes(); 
+      int i = 0;
+      int j = 0;
+
+      for(int x = 0; x<5; x++) {
+         i=0;
+         for (Record record : topFive) {
+            //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+            if (discipline.equals(record.getDiscipline())) {
+               if (min > record.getMinutes()) {
+                  min = record.getMinutes();
                   sec = record.getSeconds();
                   mili = record.getMiliseconds();
                   discipline = record.getDiscipline();
                   swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                  //j++;
+                  index = i;
 
-               } 
-               else if (sec == record.getSeconds()){
-                  if(mili > record.getMiliseconds()){
-                     min = record.getMinutes(); 
+               } else if (min == record.getMinutes()) {
+                  if (sec > record.getSeconds()) {
+                     min = record.getMinutes();
                      sec = record.getSeconds();
                      mili = record.getMiliseconds();
                      discipline = record.getDiscipline();
                      swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                     //j++;
+                     index = i;
 
+                  } else if (sec == record.getSeconds()) {
+                     if (mili > record.getMiliseconds()) {
+                        min = record.getMinutes();
+                        sec = record.getSeconds();
+                        mili = record.getMiliseconds();
+                        discipline = record.getDiscipline();
+                        swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                        //j++;
+                        index = i;
+
+                     }
                   }
                }
             }
-         } 
+            i++;
+         }
+         top5[j] = "Discipline: " + discipline.replace("_", " ") + "\nSwimmer: " + swimmer + "\nRecord:\t" + min + "min " + sec + "sec " + mili + "ms\n";
+         topFive.remove(index);
+         j++;
       }
-      String time = "Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+swimmer+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n";
-      return time;
+      return top5;
    }
   
    public void checkCoach(ArrayList<User> users , ArrayList<CoachRelation> coachRelations){
