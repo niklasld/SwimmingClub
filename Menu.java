@@ -354,6 +354,9 @@ public class Menu{
 
       for(int x = 0; x<5; x++) {
          i=0;
+         min=999;
+         sec=9999;
+         mili=999;
          for (Record record : topFive) {
             //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
             if (discipline.equals(record.getDiscipline())) {
@@ -362,7 +365,7 @@ public class Menu{
                   sec = record.getSeconds();
                   mili = record.getMiliseconds();
                   discipline = record.getDiscipline();
-                  swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                  swimmer = ""+users.get(record.getSwimId()).getNames();
                   //j++;
                   index = i;
 
@@ -372,7 +375,7 @@ public class Menu{
                      sec = record.getSeconds();
                      mili = record.getMiliseconds();
                      discipline = record.getDiscipline();
-                     swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                     swimmer = ""+users.get(record.getSwimId()).getNames();
                      //j++;
                      index = i;
 
@@ -382,7 +385,7 @@ public class Menu{
                         sec = record.getSeconds();
                         mili = record.getMiliseconds();
                         discipline = record.getDiscipline();
-                        swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+                        swimmer = ""+users.get(record.getSwimId()).getNames();
                         //j++;
                         index = i;
 
