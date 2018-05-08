@@ -221,6 +221,8 @@ public class Menu{
                break;
             case 7:
                //add coach
+               addCoach(coachRelations, users, swimId);
+               file.updateFiles(users, records,coachRelations); 
                break;
             case 8:
                //add record
@@ -352,4 +354,17 @@ public class Menu{
          }
       }
    }    
+   public void addCoach(ArrayList<CoachRelation> coachRelations, ArrayList<User> users, int swimId){
+      
+      System.out.println("Available coaches for the swimmer" + users.get(swimId).getFirstName() + " "+users.get(swimId).getLastName());
+      
+      for(int i=0;i<users.size();i++){
+         if (users.get(i).getCoach() == true){
+            System.out.println(users.get(i).getId() + ". " + users.get(i).getFirstName() + " " + users.get(i).getLastName());
+         }
+      } 
+      int coachId = file.scanInt("Select the coach you want to add to the swimmer");
+      file.addCoachRelation(swimId, coachId, coachRelations);
+      
+   }
 }

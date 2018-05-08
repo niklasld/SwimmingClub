@@ -35,16 +35,23 @@ public class Files {
    }
    
    public int scanInt(String message) {
-      scan = new Scanner(System.in);
+      
       int input = -1;
       
       while(input == -1) {
+         scan = new Scanner(System.in);
          System.out.println(message);
          if(scan.hasNextInt()) {
             input = scan.nextInt();
          }
          else {
             System.out.println("Error input wasnt a single number");
+            if(scan.hasNextInt()) {
+               input = scan.nextInt();
+            }
+            else {
+               input = -1;
+            }
          }
       }
       
@@ -218,6 +225,9 @@ public class Files {
    }
    
    //CoachRelations specific methods
+   public void addCoachRelation(int swimId, int coachId, ArrayList<CoachRelation> coachRelations){
+      coachRelations.add(new CoachRelation( swimId, coachId)); 
+   } 
    
    public void readCoach(ArrayList<CoachRelation> coachRelations){
       int counter = 0;
