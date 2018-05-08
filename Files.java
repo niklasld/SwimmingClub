@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-
+import java.text.*;
 public class Files {
    Scanner scan;  
    
@@ -214,13 +214,35 @@ public class Files {
    public void addRecordFromInput(int swimId, ArrayList<Record> records) {
       String discipline, date;
       int minutes, seconds, miliseconds;
+      int inputMenu = scanInt("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
+      discipline = "";
+      switch (inputMenu){
+         case 1: 
+            // select discipline
+            discipline = "200m_Crawl";
+            break;
+         case 2: 
+            discipline = "500m_Crawl";
+            break;
+         case 3: 
+            discipline = "200m_Freestyle";
+            break;
+         case 4:
+            discipline = "500m_Freestyle";
+            break;
+         default:
+            System.out.println("Invalid action");
+            break;     
+      }
       
-      discipline = scanString("Enter swim discipline: ").replace(" ", "_");
-      date = scanString("Enter date: ").replace(" ", "_");
+      //discipline = scanString("Enter swim discipline: ").replace(" ", "_");
+      Date myDate = new Date();
+      SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+      date = dateFormat.format(myDate);
       minutes = scanInt("Enter minutes: ");
       seconds = scanInt("Enter seconds: ");
-      miliseconds = scanInt("Enter miliseconds: ");
-           
+      miliseconds = scanInt("Enter miliseconds: "); 
+         
       records.add(new Record(discipline, date, minutes, seconds, miliseconds, swimId)); 
    }
    

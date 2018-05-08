@@ -1,13 +1,10 @@
 import java.util.*;
+import java.text.*;
 
 public class SwimmingClub {
    public static void main(String[] args) {
 
-      /*
-      *  edit swimmer menu
-      *  add coach
-      *  add menu for choosing discipline in add record
-      */
+      
 
       Files file = new Files();
       Menu menu = new Menu();
@@ -31,6 +28,7 @@ public class SwimmingClub {
       file.readCoach(coachRelations);
       file.closeFile();
       
+
       menu.startMenu(users, records, coachRelations);
       
    }
