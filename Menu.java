@@ -80,9 +80,7 @@ public class Menu{
                case 7:
                   // search swimmers
                   swimSearch(users, records, coachRelations);
-                  System.out.println("temp til soegning kommer addrecord, skal også have add swimmer as student");
-                  //file.addRecordFromInput(records);
-                  //file.updateFiles(users, records, coachRelations);
+                  
                   break;
                case 8:
                   // create user (admin menu)
@@ -302,12 +300,43 @@ public class Menu{
       System.out.println(getBestTimes(records,users, "500m_Freestyle"));
       
    }
+   public void checkTopFive(ArrayList<User> users, ArrayList<Record> records){
+      int recordInput = file.scanInt("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
+      String discipline = ""; 
+      switch(recordInput){
+         case 1: 
+            // select discipline
+            discipline = "200m_Crawl";
+            break;
+         case 2: 
+            discipline = "500m_Crawl";
+            break;
+         case 3: 
+            discipline = "200m_Freestyle";
+            break;
+         case 4:
+            discipline = "500m_Freestyle";
+            break;
+         default:
+            System.out.println("Invalid action");
+            break;             
+      }
    
+   }
    public String getBestTimes (ArrayList<Record> records,ArrayList<User> users, String discipline) {
       int min=999;
       int sec=9999;
       int mili=999;
       String swimmer = "blANK";
+      
+      /*
+      String[] top5 = new String[5];
+      
+      for(int i = 0; i<5;i++){
+      
+      }
+      
+          */
       
       for(Record record: records){
          //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
