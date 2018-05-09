@@ -3,10 +3,11 @@ public class User {
    private int id;
    private boolean admin = false;
    private boolean coach = false;
-   private boolean active = true;
+   private boolean payed = true;
+   private boolean passiveMemberShip = false;
    private int age;
    
-   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach, boolean active, int age, String memberShip) {
+   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach, boolean payed, int age, String memberShip, boolean passiveMemberShip) {
       this.id = id;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -14,9 +15,27 @@ public class User {
       this.password = password;
       this.admin = admin;
       this.coach = coach;
-      this.active = active;
+      this.payed = payed;
       this.age = age;
       this.memberShip = memberShip;
+      this.passiveMemberShip = passiveMemberShip;
+   }
+   
+   public double getMemberShipPrice() {
+      double price = 1600.00;
+      double finalPrice;
+      
+      if(age < 18) {
+         finalPrice = 1000;
+      } 
+      else if(age>59) {
+         finalPrice = price*0.75;
+      }
+      else {
+         finalPrice = price;
+      }
+
+      return finalPrice;
    }
    
    public void setAge(int age){
@@ -43,12 +62,12 @@ public class User {
       return coach;
    } 
      
-   public void setActive(boolean active){
-      this.active = active;  
+   public void setPayed(boolean payed){
+      this.payed = payed;  
    }
    
-   public boolean getActive(){
-      return active;
+   public boolean getPayed(){
+      return payed;
    }
       
    public void setId(int id) {
@@ -100,6 +119,14 @@ public class User {
    
    public String getMemberShip(){
       return memberShip;
+   }
+   
+   public void setPassiveMemberShip(boolean passiveMemberShip) {
+      this.passiveMemberShip = passiveMemberShip;
+   }
+   
+   public boolean getPassiveMemberShip() {
+      return passiveMemberShip;
    }
    
 }

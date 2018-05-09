@@ -120,9 +120,10 @@ public class Files {
          infoString += " "+users.get(i).getPassword();
          infoString += " "+users.get(i).getAdmin();
          infoString += " "+users.get(i).getCoach();
-         infoString += " "+users.get(i).getActive();
+         infoString += " "+users.get(i).getPayed();
          infoString += " "+users.get(i).getAge();
-         infoString += " "+users.get(i).getMemberShip()+"\n";
+         infoString += " "+users.get(i).getMemberShip();
+         infoString += " "+users.get(i).getPassiveMemberShip()+"\n";
          addToFile("Users.txt", infoString);
       }
       clearFile("Records.txt");
@@ -171,10 +172,11 @@ public class Files {
          String password = scan.next();
          boolean admin = scan.nextBoolean();
          boolean coach = scan.nextBoolean();
-         boolean active = scan.nextBoolean();
+         boolean payed = scan.nextBoolean();
          int age = scan.nextInt();
          String memberShip = scan.next();
-         users.add(new User(id,firstName,lastName, username, password, admin, coach, active, age, memberShip)); 
+         boolean passiveMemberShip = scan.nextBoolean();
+         users.add(new User(id,firstName,lastName, username, password, admin, coach, payed, age, memberShip, passiveMemberShip)); 
          counter++;
       }
    }
@@ -198,7 +200,7 @@ public class Files {
      
       id = users.size();
        
-      users.add(new User(id,firstName,lastName, username, password, false, false, true, age, memberShip)); 
+      users.add(new User(id,firstName,lastName, username, password, false, false, true, age, memberShip, false)); 
       
    }
    

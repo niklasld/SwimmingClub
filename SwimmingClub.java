@@ -6,8 +6,13 @@ public class SwimmingClub {
 
       // low priority: add show coached method
       //try and catch on every outOfBounds errors
-      //checkPayments
-      //checkMemberShip-- forskellige rabatter
+      
+      //lav set aktiv/passiv membership
+      
+      //lav funktion med holdopdeling // (Descipliner)
+      
+      //stævne funktion for konkurrence svømmere
+
       
       Files file = new Files();
       Menu menu = new Menu();

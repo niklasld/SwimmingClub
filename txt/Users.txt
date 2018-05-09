@@ -1,9 +1,10 @@
-0 asd asd pp p2p false false true 15 Excercise
-1 Niklas Dueholm ND nd42 false false true 11 Competetive
-2 Gustav arnoldsen 1 1 true true true 12 Competetive
-3 Arnold Pølsemand svømmerelite godsvømmerklart false false true 20 Excercise
-4 Petter Swimfast 2 2 false false true 46 Excercise
-5 cookie monster 3 3 false true true 99 Competetive
-6 anders andersen pelle 123 false true true 12 Excercise
-7 hasan h h h false false true 25 Excercise
-8 Felix LiteSwim Dr who false false true 2000 Competetive
+0 asd asd pp p2p false false false 15 Excercise true
+1 Niklas Dueholm ND nd42 false false true 11 Competetive false
+2 Gustav arnoldsen 1 1 true true true 12 Competetive false
+3 Arnold Pølsemand svømmerelite godsvømmerklart false false true 20 Excercise false
+4 Petter Swimfast 2 2 false false true 46 Excercise false
+5 cookie monster 3 3 false true true 99 Competetive false
+6 anders andersen pelle 123 false true true 12 Excercise false
+7 hasan h h h false false true 25 Excercise false
+8 Felix LiteSwim Dr who false false true 2000 Competetive true
+9 Test Testerson Test Test false false true 16 Competetive false

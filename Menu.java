@@ -41,6 +41,8 @@ public class Menu{
       if(loginMatch==true) {
          int choice = -1;
          while(run ==1) {
+            System.out.println("\nMain menu:\n");
+
             System.out.println("\t1. Check Lane record \n\t2. Check personal best \n\t3. Check all time club best \n\t4. Check coach \n\t5. Quit");
             if(coach == true || admin == true){               
                System.out.println("\n\tCoach menu:\n\t6. show top 5 \n\t7. Search Swimmers");
@@ -86,6 +88,7 @@ public class Menu{
                   // search swimmers
                   try {
                      swimSearch(users, records, coachRelations);
+                     file.updateFiles(users, records, coachRelations);
                   }
                   catch(Exception e) {
                      System.out.println(" number dosent match the swimmer ");
@@ -101,6 +104,14 @@ public class Menu{
                   break;
                case 9:
                   // show payments due
+                  if(admin == true) {
+                     System.out.println("Swimmer who are behind payment on membership:\n");
+                     for(User result : users) {
+                        if(result.getPayed() == false) {
+                           System.out.println("Id: "+result.getId()+"\tName: "+result.getNames()+"\tPayed:"+result.getPayed());
+                        }
+                     }               
+                  }
                   break;
                default:
                   System.out.println("Invalid option please select one of the menu functions or quit the program");
@@ -120,7 +131,7 @@ public class Menu{
       password = file.scanString("choose password: ");
    
       for(int i = 0; i<users.size();i++){
-         if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) && users.get(i).getActive() == true){
+         if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) && users.get(i).getPayed() == true){
             this.loginMatch = true;
             this.loginId = i;
             if(users.get(i).getAdmin() == true){
@@ -178,22 +189,28 @@ public class Menu{
    }
 
    public void editSwimmer(int swimId, ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
-      System.out.println("edit " + users.get(swimId).getFirstName() + " " + users.get(swimId).getLastName() + "\n");
+      //System.out.println("edit " + users.get(swimId).getFirstName() + " " + users.get(swimId).getLastName() + "\n");
 
 
 
       for (boolean runEdit = true; runEdit == true;) {
-
+         System.out.println("\nEdit swimmer menu for the swimmer: "+users.get(swimId).getNames()+"\n");
          System.out.println("1. Edit firstname");
          System.out.println("2. Edit lastname");
          System.out.println("3. Edit username");
          System.out.println("4. Edit password");
          System.out.println("5. Edit active");
          System.out.println("6. Edit age");
-         System.out.println("7. Add coach");
-         System.out.println("8. Add record");
-         System.out.println("9. Exit");
-
+         System.out.println("7. Edit membership");
+         System.out.println("8. Add coach");
+         System.out.println("9. Add record");
+         System.out.println("10. Exit\n");
+         
+         if(admin == true) {
+            System.out.println("Admin menu: ");
+            System.out.println("11. Edit membership status");
+            System.out.println("12. Show membership price\n");
+         }
          int select = file.scanInt("Select option: ");
 
          switch (select) {
@@ -220,7 +237,7 @@ public class Menu{
             case 5:
                //edit active
                boolean active = file.scanBoolean("Active: true/false: ");
-               users.get(swimId).setActive(active);
+               users.get(swimId).setPayed(active);
                break;
             case 6:
                //edit age
@@ -228,18 +245,61 @@ public class Menu{
                users.get(swimId).setAge(age);
                break;
             case 7:
+               //edit membership
+               break;
+            case 8:
                //add coach
                addCoach(coachRelations, users, swimId);
                file.updateFiles(users, records,coachRelations); 
                break;
-            case 8:
+            case 9:
                //add record
                file.addRecordFromInput(swimId, records);
                file.updateFiles(users, records, coachRelations);
                break;
-            case 9:
+            case 10:
                //exit
                runEdit = false;
+               break;
+            case 11:
+               //Edit membership status
+               if(admin ==  true) {
+                  System.out.println("User is currently set to "+users.get(swimId).getPassiveMemberShip()+"\nIf member status is true the swimmer will pay 500kr a year, if false default prices are used");
+                  try {
+                     boolean runMemberStatus = true;
+                     while(runMemberStatus == true) {
+                        int input = file.scanInt("\n1. Set to true\n2. Set to false\n3. Exit");
+                        
+                        switch(input) {
+                           case 1:
+                              // set to true
+                              users.get(swimId).setPassiveMemberShip(true);
+                              runMemberStatus = false;
+                              break;
+                           case 2:
+                              // set to false
+                              users.get(swimId).setPassiveMemberShip(false);
+                              runMemberStatus = false;
+                              break;
+                           case 3: 
+                              // Exit
+                              runMemberStatus = false;
+                              break;
+                           default:
+                              System.out.println("Please choose 1-3"); 
+                              break;
+                        }
+                     }
+                  }
+                  catch(Exception e) {
+                     System.out.println("Error in setmemberShip menu(edit swimmer in files.java)");
+                  }
+               }
+            case 12:
+               if(admin == true) {
+                  double price = users.get(swimId).getMemberShipPrice();
+                  System.out.println("Swimmer is paying "+price+" per year.");
+               }
                break;
             default:
                System.out.println("Invalid action");
@@ -247,14 +307,6 @@ public class Menu{
          }
 
       }
-
-      /*for(User u: users){
-         if(u.getId() == swimId){
-            u.setFirstName(firstName);
-            u.setLastName(lastName);
-
-         }
-      }*/
    }
    
    public void checkPersonalBest(ArrayList<Record> records, ArrayList<User> users, String discipline) {
