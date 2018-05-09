@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import java.text.*;
+import java.lang.*;
 public class Files {
    Scanner scan;  
    
@@ -34,10 +35,9 @@ public class Files {
       scan.close();
    }
    
-   public int scanInt(String message) {
-      
+   public int scanInt(String message)  {
       int input = -1;
-      
+
       while(input == -1) {
          scan = new Scanner(System.in);
          System.out.println(message);
@@ -54,6 +54,7 @@ public class Files {
             }
          }
       }
+      
       
       return input;
    }
@@ -120,7 +121,8 @@ public class Files {
          infoString += " "+users.get(i).getAdmin();
          infoString += " "+users.get(i).getCoach();
          infoString += " "+users.get(i).getActive();
-         infoString += " "+users.get(i).getAge()+"\n";
+         infoString += " "+users.get(i).getAge();
+         infoString += " "+users.get(i).getMemberShip()+"\n";
          addToFile("Users.txt", infoString);
       }
       clearFile("Records.txt");
@@ -171,24 +173,32 @@ public class Files {
          boolean coach = scan.nextBoolean();
          boolean active = scan.nextBoolean();
          int age = scan.nextInt();
-         users.add(new User(id,firstName,lastName, username, password, admin, coach, active, age)); 
+         String memberShip = scan.next();
+         users.add(new User(id,firstName,lastName, username, password, admin, coach, active, age, memberShip)); 
          counter++;
       }
    }
    
    public void addUserFromInput(ArrayList<User> users) {
-      String firstName, lastName, username, password;
-      int id, age;
+      String firstName, lastName, username, password, memberShip;
+      int id, age, choice;
       
       firstName = scanString("Enter first name: ");
       lastName = scanString("Enter last name: ");
       username = scanString("Enter username: ");
       password = scanString("Enter password: ");
       age = scanInt("Enter your age");
-  
+      choice = scanInt("1. Excercise Swimmer\n 2. Competetive Swimmer");
+      if(choice == 1){
+         memberShip = "Excercise";        
+      }
+      else{
+         memberShip = "Competetive";
+      }
+     
       id = users.size();
        
-      users.add(new User(id,firstName,lastName, username, password, false, false, true, age)); 
+      users.add(new User(id,firstName,lastName, username, password, false, false, true, age, memberShip)); 
       
    }
    
@@ -214,27 +224,33 @@ public class Files {
    public void addRecordFromInput(int swimId, ArrayList<Record> records) {
       String discipline, date;
       int minutes, seconds, miliseconds;
-      int inputMenu = scanInt("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
-      discipline = "";
-      switch (inputMenu){
-         case 1: 
-            // select discipline
-            discipline = "200m_Crawl";
-            break;
-         case 2: 
-            discipline = "500m_Crawl";
-            break;
-         case 3: 
-            discipline = "200m_Freestyle";
-            break;
-         case 4:
-            discipline = "500m_Freestyle";
-            break;
-         default:
-            System.out.println("Invalid action");
-            break;     
-      }
+      int inputMenu;
+      discipline = " ";
       
+      System.out.println("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
+      
+      while(discipline.equals(" ")) {
+         inputMenu = scanInt("");
+         switch (inputMenu){
+            case 1: 
+               // select discipline
+               discipline = "200m_Crawl";
+               break;
+            case 2: 
+               discipline = "500m_Crawl";
+               break;
+            case 3: 
+               discipline = "200m_Freestyle";
+               break;
+            case 4:
+               discipline = "500m_Freestyle";
+               break;
+            default:
+               System.out.println("Invalid choice please choose 1-4\n");
+               System.out.println("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
+               break;     
+         }
+      }
       //discipline = scanString("Enter swim discipline: ").replace(" ", "_");
       Date myDate = new Date();
       SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

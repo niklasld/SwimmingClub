@@ -1,12 +1,12 @@
 public class User {
-   private String firstName, lastName, username, password;
+   private String firstName, lastName, username, password, memberShip;
    private int id;
    private boolean admin = false;
    private boolean coach = false;
    private boolean active = true;
    private int age;
    
-   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach, boolean active, int age) {
+   public User(int id, String firstName, String lastName, String username, String password, boolean admin, boolean coach, boolean active, int age, String memberShip) {
       this.id = id;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -16,6 +16,7 @@ public class User {
       this.coach = coach;
       this.active = active;
       this.age = age;
+      this.memberShip = memberShip;
    }
    
    public void setAge(int age){
@@ -93,4 +94,12 @@ public class User {
    public String getNames(){
       return firstName + " " + lastName;
    }
+   public void setMemberShip(String memberShip){
+      this.memberShip = memberShip;
+   } 
+   
+   public String getMemberShip(){
+      return memberShip;
+   }
+   
 }

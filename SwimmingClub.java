@@ -4,8 +4,11 @@ import java.text.*;
 public class SwimmingClub {
    public static void main(String[] args) {
 
+      // low priority: add show coached method
+      //try and catch on every outOfBounds errors
+      //checkPayments
+      //checkMemberShip-- forskellige rabatter
       
-
       Files file = new Files();
       Menu menu = new Menu();
       

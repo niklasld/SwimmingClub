@@ -75,11 +75,21 @@ public class Menu{
                   break;
                case 6: 
                   //Show top 5
-                  checkTopFive(users, records);
+                  try {
+                     checkTopFive(users, records);
+                  }
+                  catch(Exception e) {
+                     System.out.println("No matching number\n");
+                  }
                   break;
                case 7:
                   // search swimmers
-                  swimSearch(users, records, coachRelations);
+                  try {
+                     swimSearch(users, records, coachRelations);
+                  }
+                  catch(Exception e) {
+                     System.out.println(" number dosent match the swimmer ");
+                  }
                   
                   break;
                case 8:
@@ -345,7 +355,10 @@ public class Menu{
    }
 
    public void checkTopFive(ArrayList<User> users, ArrayList<Record> records){
+      
+      
       int recordInput = file.scanInt("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
+      
       String discipline = ""; 
       switch(recordInput){
          case 1: 
@@ -362,7 +375,7 @@ public class Menu{
             discipline = "500m_Freestyle";
             break;
          default:
-            System.out.println("Invalid action");
+            //System.out.println("Invalid action");
             break;             
       }
 
@@ -445,11 +458,16 @@ public class Menu{
    }
   
    public void checkCoach(ArrayList<User> users , ArrayList<CoachRelation> coachRelations){
+      boolean result = false;
+     
       for(int i = 0; i<coachRelations.size(); i++){
          if(coachRelations.get(i).getSwimId()==loginId) {
             System.out.println(users.get(loginId).getFirstName()+" "+ users.get(loginId).getLastName()+" Coach: "+ users.get(coachRelations.get(i).getCoachId()).getFirstName()+" "+users.get(coachRelations.get(i).getCoachId()).getLastName());
-            
+            result = true;
          }
+      }
+      if (result == false){
+         System.out.println("You have no Coach\n");
       }
    }    
    public void addCoach(ArrayList<CoachRelation> coachRelations, ArrayList<User> users, int swimId){
