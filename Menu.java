@@ -294,14 +294,56 @@ public class Menu{
    
    public void checkClubBest(ArrayList<User> users, ArrayList<Record> records) {
       // missing Dates correctly 
-      /*for (String best: getBestTimes(records,users, "200m_Crawl")) {
-         System.out.println(best);
-      }
+      System.out.println(getBestTimes(records,users, "200m_Crawl"));
       System.out.println(getBestTimes(records,users, "500m_Crawl"));
       System.out.println(getBestTimes(records,users, "200m_Freestyle"));
-      System.out.println(getBestTimes(records,users, "500m_Freestyle"));*/
+      System.out.println(getBestTimes(records,users, "500m_Freestyle"));
       
    }
+
+   public String getBestTimes (ArrayList<Record> records,ArrayList<User> users, String discipline) {
+      int min=999;
+      int sec=9999;
+      int mili=999;
+      String swimmer = "blANK";
+
+      for(Record record: records){
+         //swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+         if(discipline.equals(record.getDiscipline())) {
+            if(min > record.getMinutes()) {
+               min = record.getMinutes();
+               sec = record.getSeconds();
+               mili = record.getMiliseconds();
+               discipline = record.getDiscipline();
+               swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+            }
+            else if(min == record.getMinutes()){
+               if(sec > record.getSeconds()){
+                  min = record.getMinutes();
+                  sec = record.getSeconds();
+                  mili = record.getMiliseconds();
+                  discipline = record.getDiscipline();
+                  swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+               }
+               else if (sec == record.getSeconds()){
+                  if(mili > record.getMiliseconds()){
+                     min = record.getMinutes();
+                     sec = record.getSeconds();
+                     mili = record.getMiliseconds();
+                     discipline = record.getDiscipline();
+                     swimmer = ""+users.get(record.getSwimId()).getFirstName()+" "+users.get(record.getSwimId()).getLastName();
+
+                  }
+               }
+            }
+         }
+      }
+      String time = "Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+swimmer+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n";
+      return time;
+   }
+
    public void checkTopFive(ArrayList<User> users, ArrayList<Record> records){
       int recordInput = file.scanInt("1. 200m Crawl\n2. 500m Crawl\n3. 200m Freestyle\n4. 500m Freestyle");
       String discipline = ""; 
