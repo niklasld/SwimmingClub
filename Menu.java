@@ -236,12 +236,12 @@ public class Menu{
          System.out.println("7. Edit membership");
          System.out.println("8. Add coach");
          System.out.println("9. Add record");
-         System.out.println("10. Show/eit swim team);
+         System.out.println("10. Show/edit swim team");
          System.out.println("11. Exit\n");
          if(admin == true) {
             System.out.println("Admin menu: ");
-            System.out.println("11. Edit membership payment status");
-            System.out.println("12. show Membership price\n");
+            System.out.println("12. Edit membership payment status");
+            System.out.println("13. show Membership price\n");
          }
          int select = file.scanInt("Select option: ");
 
@@ -278,6 +278,7 @@ public class Menu{
                break;
             case 7:
                //edit membership
+
                break;
             case 8:
                //add coach
@@ -290,10 +291,40 @@ public class Menu{
                file.updateFiles(users, records, coachRelations);
                break;
             case 10:
+               //Show/edit swim team
+               boolean teamMatch = false;
+               for(CoachRelation c : coachRelations){
+                  if( c.getSwimId() == swimId){
+                     System.out.println(c.getTeam().replace("_", " "));
+                     teamMatch = true;
+                  }
+               }
+               if(teamMatch == false){
+                  System.out.println("No team");
+               }
+
+               System.out.println("\nDo you want, to add a team");
+               System.out.println("1. yes\n2. no\n");
+               int choice;
+               for (boolean run = true; run == true;){
+                  choice = file.scanInt("");
+                  if (choice == 1){
+                     editTeam(coachRelations, users, swimId);
+                     run = false;
+                  } else if (choice == 2) {
+                     System.out.println("Alright 👍");
+                     run = false;
+                  } else {
+                     System.out.println("Invalid action!");
+                  }
+               }
+
+               break;
+            case 11:
                //exit
                runEdit = false;
                break;
-            case 11:
+            case 12:
                //Edit membership payed status
                if(admin ==  true) {
                   System.out.println("User is currently set to "+users.get(swimId).getPayed()+"\nIf member status is true the swimmer has payed for its membership");
@@ -301,7 +332,7 @@ public class Menu{
                      boolean runMemberStatus = true;
                      while(runMemberStatus == true) {
                         int input = file.scanInt("\n1. Set to true\n2. Set to false\n3. Exit");
-                       
+
                         switch(input) {
                            case 1:
                               // set to true
@@ -313,12 +344,12 @@ public class Menu{
                               users.get(swimId).setPayed(false);
                               runMemberStatus = false;
                               break;
-                           case 3: 
+                           case 3:
                               // Exit
                               runMemberStatus = false;
                               break;
                            default:
-                              System.out.println("Please choose 1-3"); 
+                              System.out.println("Please choose 1-3");
                               break;
                         }
                      }
@@ -327,7 +358,8 @@ public class Menu{
                      System.out.println("Error in setmemberShip menu(edit swimmer in files.java)");
                   }
                }
-            case 12:
+               break;
+            case 13:
                if(admin == true) {
                   double price = users.get(swimId).getMemberShipPrice();
                   System.out.println("Swimmer is paying "+price+" per year.");
@@ -565,7 +597,96 @@ public class Menu{
          }
       } 
       int coachId = file.scanInt("Select the coach you want to add to the swimmer");
-      file.addCoachRelation(swimId, coachId, coachRelations);
-      
+      String team = "";
+      for(boolean run = true; run == true; ) {
+         int choice = file.scanInt("select team:\n1. Team 1\n2. Team 2\n3. No team");
+         if (choice == 1) {
+            team = "Team_1";
+            run = false;
+         } else if (choice == 2) {
+            team = "Team_2";
+            run = false;
+         } else if (choice == 3) {
+            team = "No_team";
+            run = false;
+         }
+         else {
+            System.out.println("Invalid choise");
+         }
+      }
+      file.addCoachRelation(swimId, coachId, team, coachRelations);
+
+   }
+
+   public void editTeam(ArrayList<CoachRelation> coachRelations, ArrayList<User> users, int swimId){
+      int i = 0;
+      int j = 0;
+      int relation = -1;
+      int[] choices = new int[50];
+      choices[0] = -1;
+
+      System.out.println("\nSelect coach relationship:\n");
+
+      for (boolean run = true; run == true;) {
+         for (CoachRelation c : coachRelations) {
+            if(c.getSwimId() == swimId) {
+               System.out.println("id:" + i + " Swimmer:" + users.get(c.getSwimId()).getNames() + " coach:" + users.get(c.getCoachId()).getNames());
+               choices[j] = i;
+               j++;
+            }
+            i++;
+         }
+
+         if(choices[0] != -1) {
+
+            relation = file.scanInt("Select number: ");
+            for (int c : choices) {
+               if (c == relation) {
+                  run = false;
+               }
+            }
+
+            if (run == true) {
+               System.out.println("Invalid action");
+            }
+
+         } else {
+            System.out.println("No relationships found!");
+            run = false;
+         }
+      }
+
+      if(choices[0] != -1) {
+         String team = "";
+
+         for (boolean run = true; run == true; ) {
+            System.out.println("Select team:");
+            System.out.println("1. Team 1\n2. Team 2\n3. No team");
+
+            int choice = file.scanInt("Select number: ");
+            switch (choice) {
+               case 1:
+                  team = "Team_1";
+                  run = false;
+                  break;
+               case 2:
+                  team = "Team_2";
+                  run = false;
+                  break;
+               case 3:
+                  team = "No team";
+                  run = false;
+                  break;
+               default:
+                  System.out.println("invalid action");
+                  break;
+            }
+
+         }
+
+         if (relation >= 0) {
+            coachRelations.get(relation).setTeam(team);
+         }
+      }
    }
 }

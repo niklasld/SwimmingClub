@@ -40,7 +40,7 @@ public class Files {
 
       while(input == -1) {
          scan = new Scanner(System.in);
-         System.out.println(message);
+         System.out.print(message);
          if(scan.hasNextInt()) {
             input = scan.nextInt();
          }
@@ -64,7 +64,7 @@ public class Files {
       double input = -1;
       
       while(input == -1) {
-         System.out.println(message);
+         System.out.print(message);
          if(scan.hasNextDouble()) {
             input = scan.nextDouble();
          }
@@ -79,7 +79,7 @@ public class Files {
    public boolean scanBoolean(String message) {
       scan = new Scanner(System.in);
       boolean input = false;
-      System.out.println(message);
+      System.out.print(message);
       if(scan.hasNextBoolean()) {
          input = scan.nextBoolean();
       }

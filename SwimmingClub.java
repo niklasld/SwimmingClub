@@ -6,12 +6,13 @@ public class SwimmingClub {
 
       // low priority: add show coached method
       //try and catch on every outOfBounds errors
+      //edit membership
       
       //lav set aktiv/passiv membership
       
       //lav funktion med holdopdeling // (Descipliner)
       // gustav og cookie monster er coaches
-      //stævne funktion for konkurrence svømmere
+      //stï¿½vne funktion for konkurrence svï¿½mmere
 
       
       Files file = new Files();
