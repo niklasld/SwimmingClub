@@ -1,6 +1,6 @@
 0 asd asd pp p2p false false false 15 Excercise true
 1 Niklas Dueholm ND nd42 false false true 11 Competetive false
-2 Gustav arnoldsen 1 1 true true true 12 Competetive false
+2 Gustav arnoldsen 1 1 true true true 12 Competetive true
 3 Arnold Pølsemand svømmerelite godsvømmerklart false false true 20 Excercise false
 4 Petter Swimfast 2 2 false false true 46 Excercise false
 5 cookie monster 3 3 false true true 99 Competetive false

@@ -139,7 +139,8 @@ public class Files {
       clearFile ("CoachRelations.txt");
       for(int i = 0; i<coachRelations.size(); i++){
          infoString = ""+coachRelations.get(i).getSwimId();
-         infoString += " "+coachRelations.get(i).getCoachId()+"\n";
+         infoString += " "+coachRelations.get(i).getCoachId();
+         infoString += " "+coachRelations.get(i).getTeam()+"\n";
          addToFile("CoachRelations.txt", infoString);
          
                
@@ -265,8 +266,8 @@ public class Files {
    }
    
    //CoachRelations specific methods
-   public void addCoachRelation(int swimId, int coachId, ArrayList<CoachRelation> coachRelations){
-      coachRelations.add(new CoachRelation( swimId, coachId)); 
+   public void addCoachRelation(int swimId, int coachId, String team, ArrayList<CoachRelation> coachRelations){
+      coachRelations.add(new CoachRelation( swimId, coachId, team)); 
    } 
    
    public void readCoach(ArrayList<CoachRelation> coachRelations){
@@ -274,8 +275,8 @@ public class Files {
       while (scan.hasNext()){
          int swimId  = scan.nextInt();
          int coachId = scan.nextInt();
-         
-         coachRelations.add(new CoachRelation(swimId ,coachId));
+         String team = scan.next();
+         coachRelations.add(new CoachRelation(swimId ,coachId, team));
       
       }   
    }

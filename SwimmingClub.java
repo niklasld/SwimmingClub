@@ -10,7 +10,7 @@ public class SwimmingClub {
       //lav set aktiv/passiv membership
       
       //lav funktion med holdopdeling // (Descipliner)
-      
+      // gustav og cookie monster er coaches
       //stævne funktion for konkurrence svømmere
 
       

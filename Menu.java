@@ -40,15 +40,17 @@ public class Menu{
    public void mainMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
       if(loginMatch==true) {
          int choice = -1;
-         while(run ==1) {
+         while(run ==1) {         
+
             System.out.println("\nMain menu:\n");
 
-            System.out.println("\t1. Check Lane record \n\t2. Check personal best \n\t3. Check all time club best \n\t4. Check coach \n\t5. Quit");
+            System.out.println("\t1. Check Lane record \n\t2. Check personal best \n\t3. Check all time club best \n\t4. Check coach \n\t5. Set membership status to passive\n\t6. Quit");
+
             if(coach == true || admin == true){               
-               System.out.println("\n\tCoach menu:\n\t6. show top 5 \n\t7. Search Swimmers");
+               System.out.println("\n\tCoach menu:\n\t7. show top 5 \n\t8. Search Swimmers");
             }
             if(admin == true){
-               System.out.println("\n\tAdmin menu:\n\t8. Create user\n\t9. Show payments");
+               System.out.println("\n\tAdmin menu:\n\t9. Create user\n\t10. Show payments");
             }
             choice = file.scanInt("");
             switch(choice){
@@ -71,11 +73,41 @@ public class Menu{
                   // check your coach
                   checkCoach(users, coachRelations);
                   break;
-               case 5: 
+               case 5:
+                  System.out.println("User is currently set to "+users.get(loginId).getPassiveMemberShip()+"\nIf member status is true the swimmer will pay 500kr a year, if false default prices are used");
+                  try {
+                     boolean runMemberStatus = true;
+                     while(runMemberStatus == true) {
+                        int input = file.scanInt("\n1. Set to true\n2. Set to false\n3. Exit");
+                       
+                        switch(input) {
+                           case 1:
+                              // set to true
+                              users.get(loginId).setPassiveMemberShip(true);
+                              runMemberStatus = false;
+                              break;
+                           case 2:
+                              // set to false
+                              users.get(loginId).setPassiveMemberShip(false);
+                              runMemberStatus = false;
+                              break;
+                           case 3: 
+                              runMemberStatus = false;
+                           default:
+                              System.out.println("Please choose 1-3"); 
+                              break;
+                        }
+                     }
+                  }
+                  catch(Exception e) {
+                     System.out.println("Error in setmemberShip menu(edit swimmer in files.java)");
+                  }
+                  break;               
+               case 6: 
                   // quit
                   run = 0;
                   break;
-               case 6: 
+               case 7: 
                   //Show top 5
                   try {
                      checkTopFive(users, records);
@@ -84,7 +116,7 @@ public class Menu{
                      System.out.println("No matching number\n");
                   }
                   break;
-               case 7:
+               case 8:
                   // search swimmers
                   try {
                      swimSearch(users, records, coachRelations);
@@ -95,14 +127,14 @@ public class Menu{
                   }
                   
                   break;
-               case 8:
+               case 9:
                   // create user (admin menu)
                   if(admin == true) {
                      file.addUserFromInput(users);
                      file.updateFiles(users, records, coachRelations);
                   }
                   break;
-               case 9:
+               case 10:
                   // show payments due
                   if(admin == true) {
                      System.out.println("Swimmer who are behind payment on membership:\n");
@@ -204,12 +236,12 @@ public class Menu{
          System.out.println("7. Edit membership");
          System.out.println("8. Add coach");
          System.out.println("9. Add record");
-         System.out.println("10. Exit\n");
-         
+         System.out.println("10. Show/eit swim team);
+         System.out.println("11. Exit\n");
          if(admin == true) {
             System.out.println("Admin menu: ");
-            System.out.println("11. Edit membership status");
-            System.out.println("12. Show membership price\n");
+            System.out.println("11. Edit membership payment status");
+            System.out.println("12. show Membership price\n");
          }
          int select = file.scanInt("Select option: ");
 
@@ -262,23 +294,23 @@ public class Menu{
                runEdit = false;
                break;
             case 11:
-               //Edit membership status
+               //Edit membership payed status
                if(admin ==  true) {
-                  System.out.println("User is currently set to "+users.get(swimId).getPassiveMemberShip()+"\nIf member status is true the swimmer will pay 500kr a year, if false default prices are used");
+                  System.out.println("User is currently set to "+users.get(swimId).getPayed()+"\nIf member status is true the swimmer has payed for its membership");
                   try {
                      boolean runMemberStatus = true;
                      while(runMemberStatus == true) {
                         int input = file.scanInt("\n1. Set to true\n2. Set to false\n3. Exit");
-                        
+                       
                         switch(input) {
                            case 1:
                               // set to true
-                              users.get(swimId).setPassiveMemberShip(true);
+                              users.get(swimId).setPayed(true);
                               runMemberStatus = false;
                               break;
                            case 2:
                               // set to false
-                              users.get(swimId).setPassiveMemberShip(false);
+                              users.get(swimId).setPayed(false);
                               runMemberStatus = false;
                               break;
                            case 3: 
@@ -301,6 +333,7 @@ public class Menu{
                   System.out.println("Swimmer is paying "+price+" per year.");
                }
                break;
+      
             default:
                System.out.println("Invalid action");
                break;

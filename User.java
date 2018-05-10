@@ -25,7 +25,10 @@ public class User {
       double price = 1600.00;
       double finalPrice;
       
-      if(age < 18) {
+      if(passiveMemberShip == true){
+         finalPrice = 500;
+      }
+      else if(age < 18) {
          finalPrice = 1000;
       } 
       else if(age>59) {
