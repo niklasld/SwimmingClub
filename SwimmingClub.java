@@ -8,10 +8,8 @@ public class SwimmingClub {
       //try and catch on every outOfBounds errors
       //edit membership
       
-      //lav set aktiv/passiv membership
       
       //lav funktion med holdopdeling // (Descipliner)
-      // gustav og cookie monster er coaches
       //st�vne funktion for konkurrence sv�mmere
 
       

@@ -268,6 +268,7 @@ public class Files {
    //CoachRelations specific methods
    public void addCoachRelation(int swimId, int coachId, String team, ArrayList<CoachRelation> coachRelations){
       coachRelations.add(new CoachRelation( swimId, coachId, team)); 
+      
    } 
    
    public void readCoach(ArrayList<CoachRelation> coachRelations){
@@ -280,6 +281,34 @@ public class Files {
       
       }   
    }
+   
+   public void addTeamFromInput(ArrayList<CoachRelation> coachRelations, int swimId, int coachId){
 
+      boolean teamRun = true;
+     
+      while(teamRun == true){
+         int choice = scanInt("Select the option\n1. add to Team 1\n2. add to Team 2\n3. Exit\n");
+   
+         switch(choice){
+            
+            case 1:
+               addCoachRelation(swimId, coachId, "Team_1",coachRelations);
+               teamRun = false;
+               break;
+               
+            case 2:
+               addCoachRelation(swimId, coachId, "Team_2",coachRelations);
+               teamRun = false;
+               break;
+            case 3:
+               teamRun = false;
+               break;
+            default:
+               System.out.println("Please select option 1 or 2");
+               break;
+         }
+      }
+      
+   }
    
 }

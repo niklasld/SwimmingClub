@@ -651,7 +651,7 @@ public class Menu{
             }
 
          } else {
-            System.out.println("No relationships found!");
+            file.addTeamFromInput(coachRelations,swimId, loginId);
             run = false;
          }
       }
