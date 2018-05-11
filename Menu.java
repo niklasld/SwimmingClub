@@ -44,13 +44,13 @@ public class Menu{
 
             System.out.println("\nMain menu:\n");
 
-            System.out.println("\t1. Check Lane record \n\t2. Check personal best \n\t3. Check all time club best \n\t4. Check coach \n\t5. Set membership status to passive\n\t6. Quit");
+            System.out.println("\t1. Check Lane record \n\t2. Check personal best \n\t3. Check all time club best \n\t4. Check coach \n\t5. Set membership status to passive\n\t6. Show my Competitions\n\t7. Quit");
 
             if(coach == true || admin == true){               
-               System.out.println("\n\tCoach menu:\n\t7. show top 5 \n\t8. Search Swimmers");
+               System.out.println("\n\tCoach menu:\n\t8. show top 5 \n\t9. Search Swimmers");
             }
             if(admin == true){
-               System.out.println("\n\tAdmin menu:\n\t9. Create user\n\t10. Show payments");
+               System.out.println("\n\tAdmin menu:\n\t10. Create user\n\t11. Show payments");
             }
             choice = file.scanInt("");
             switch(choice){
@@ -103,11 +103,16 @@ public class Menu{
                      System.out.println("Error in setmemberShip menu(edit swimmer in files.java)");
                   }
                   break;               
-               case 6: 
+               case 6:
+                  //Show my competitions
+                  showMyCompetitions(loginId,competitions);
+                  break;
+               
+               case 7: 
                   // quit
                   run = 0;
                   break;
-               case 7: 
+               case 8: 
                   //Show top 5
                   try {
                      checkTopFive(users, records);
@@ -116,7 +121,7 @@ public class Menu{
                      System.out.println("No matching number\n");
                   }
                   break;
-               case 8:
+               case 9:
                   // search swimmers
                   try {
                      swimSearch(users, records, coachRelations, competitions);
@@ -126,14 +131,14 @@ public class Menu{
                      System.out.println(" number dosent match the swimmer ");
                   }
                   break;
-               case 9:
+               case 10:
                   // create user (admin menu)
                   if(admin == true) {
                      file.addUserFromInput(users);
                      file.updateFiles(users, records, coachRelations, competitions);
                   }
                   break;
-               case 10:
+               case 11:
                   // show payments due
                   if(admin == true) {
                      System.out.println("Swimmer who are behind payment on membership:\n");
@@ -158,7 +163,7 @@ public class Menu{
    public void login(ArrayList<User> users){
       String username = "";
       String password = "";
-      username = file.scanString("login\n choose Username: ");
+      username = file.scanString("login\nchoose Username: ");
       password = file.scanString("choose password: ");
    
       for(int i = 0; i<users.size();i++){
@@ -232,7 +237,7 @@ public class Menu{
          System.out.println("4. Edit password");
          System.out.println("5. Edit active");
          System.out.println("6. Edit age");
-         System.out.println("7. Edit membership");
+         System.out.println("7. Edit Competition Status");
          System.out.println("8. Add coach");
          System.out.println("9. Add record");
          System.out.println("10. Show/edit swim team");
@@ -277,8 +282,8 @@ public class Menu{
                users.get(swimId).setAge(age);
                break;
             case 7:
-               //edit membership
-
+               //edit competition status
+               changeMembershipStatus(users,swimId);
                break;
             case 8:
                //add coach
@@ -603,12 +608,12 @@ public class Menu{
       int coachId = file.scanInt("Select the coach you want to add to the swimmer");
       String team = "";
       for(boolean run = true; run == true; ) {
-         int choice = file.scanInt("select team:\n1. Team 1\n2. Team 2\n3. No team");
+         int choice = file.scanInt("select team:\n1. Team Junior\n2. Team Senior\n3. No team");
          if (choice == 1) {
-            team = "Team_1";
+            team = "Team_Junior";
             run = false;
          } else if (choice == 2) {
-            team = "Team_2";
+            team = "Team_Senior";
             run = false;
          } else if (choice == 3) {
             team = "No_team";
@@ -665,16 +670,16 @@ public class Menu{
 
          for (boolean run = true; run == true; ) {
             System.out.println("Select team:");
-            System.out.println("1. Team 1\n2. Team 2\n3. No team");
+            System.out.println("1. Team Junior\n2. Team Senior\n3. No team");
 
             int choice = file.scanInt("Select number: ");
             switch (choice) {
                case 1:
-                  team = "Team_1";
+                  team = "Team_Junior";
                   run = false;
                   break;
                case 2:
-                  team = "Team_2";
+                  team = "Team_Senior";
                   run = false;
                   break;
                case 3:
@@ -690,6 +695,31 @@ public class Menu{
 
          if (relation >= 0) {
             coachRelations.get(relation).setTeam(team);
+         }
+      }
+   }
+   
+   public void showMyCompetitions(int loginId,ArrayList<Competition> competitions){
+      for(Competition c : competitions) {
+         if(loginId == c.getId()) {
+            System.out.println("Event/Discipline: "+c.getCompetitionName().replace("_"," ")+"\n"+"Date: "+c.getDate()+"\n"+"Placement: "+c.getPlacement()+"\nTime: "+c.getTimeString()+"\n");
+         }
+      }
+   }
+   public void changeMembershipStatus(ArrayList<User> users,int swimId) {
+      System.out.println("\nChange Competition Status:\n");
+      System.out.println(users.get(swimId).getNames()+"\nCurrent status is: "+users.get(swimId).getMemberShip()+"\n");
+      int choice = file.scanInt("Do you wish to change the swimmers status?\n1. Yes\n2. No");
+      if(choice == 1) {
+         choice = file.scanInt("\n1. Set to Competitive\n2. Set to Excersise\n3. Exit\n");
+         if(choice == 1) {
+            users.get(swimId).setMemberShip("Competitive");
+         }
+         else if(choice == 2) {
+            users.get(swimId).setMemberShip("Excercise");
+         }
+         else if(choice == 3){
+            
          }
       }
    }

@@ -7,11 +7,6 @@ public class SwimmingClub {
       // low priority: add show coached method
       // low priority: missing date the record was set in checkclubbest method menu.java
       //try and catch on every outOfBounds errors
-      //edit membership
-      
-      
-      //lav funktion med holdopdeling // (Descipliner)
-      //stï¿½vne funktion for konkurrence svï¿½mmere
       
       //new method for coaches: show my swimmers in training(måske)
 
