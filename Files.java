@@ -109,7 +109,7 @@ public class Files {
       }
    }
    
-   public void updateFiles(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations) {
+   public void updateFiles(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions) {
       String infoString;
       clearFile("Users.txt");
       for(int i = 0; i<users.size();i++) {
@@ -141,11 +141,19 @@ public class Files {
          infoString = ""+coachRelations.get(i).getSwimId();
          infoString += " "+coachRelations.get(i).getCoachId();
          infoString += " "+coachRelations.get(i).getTeam()+"\n";
-         addToFile("CoachRelations.txt", infoString);
-         
-               
-               
-        }
+         addToFile("CoachRelations.txt", infoString);      
+      }
+      clearFile ("Competitions.txt");
+      for(int i = 0; i<competitions.size(); i++){
+         infoString = ""+competitions.get(i).getId();
+         infoString += " "+competitions.get(i).getDate();
+         infoString += " "+competitions.get(i).getCompetitionName();
+         infoString += " "+competitions.get(i).getPlacement();
+         infoString += " "+competitions.get(i).getMinutes();
+         infoString += " "+competitions.get(i).getSeconds();
+         infoString += " "+competitions.get(i).getMiliseconds()+"\n";
+         addToFile("Competitions.txt", infoString);      
+      }
    }
    
    public void clearFile(String fileName){
@@ -310,5 +318,84 @@ public class Files {
       }
       
    }
+   
+   //Competition specific methods
+   
+   public void readCompetition(ArrayList<Competition> competitions) {
+      while (scan.hasNext()){
+         int id  = scan.nextInt();
+         String date = scan.next();
+         String competitionName = scan.next();
+         int placement = scan.nextInt();
+         int minutes = scan.nextInt();
+         int seconds = scan.nextInt();
+         int miliseconds = scan.nextInt();
+         competitions.add(new Competition(id, date, competitionName, placement, minutes, seconds, miliseconds));
+      
+      }     
+   }
+   
+   public void addCompetitionFromInput(ArrayList<Competition> competitions, ArrayList<User> users, int swimId) {
+      System.out.println("Add swimmer to competition\n");
+      int choice = -1;
+      String competitionType= "";
+      boolean run = true;
+      boolean exit = false;
+      while(choice<1 || choice>5) {
+         choice = scanInt("Please select the type of competition\n\t1. 200m Crawl\n\t2. 500m Crawl\n\t3. 200m Freestyle\n\t4. 500m FreeStyle\n\t5. Exit");
+      }
+      
+      while(run==true) {
+         switch(choice) {
+            case 1:
+               //200m Crawl
+               competitionType = "200m_Crawl";
+               run = false;
+               break;
+            case 2:
+               //500m Crawl
+               competitionType = "500m_Cralw";
+               run = false;
+               break;
+            case 3:
+               //200m Freestyle
+               competitionType = "200m_Freestyle";
+               run = false;
+               break;
+            case 4:
+               //500m Freestyle
+               competitionType = "500m_Freestyle";
+               run = false;
+               break;
+            case 5:
+               //Exit
+               run = false;
+               exit = true;
+               break;
+            default:
+               //error
+               System.out.println("Error files.java method: addCompetitionFromInput");
+               break;
+         }
+      }
+      if(exit==false) {
+         String competitionName = scanString("Please type in the name of the competition:");
+         competitionName = competitionName.replace(" ","_");
+         System.out.println(competitionName);
+         competitionName += "_"+competitionType;
+         
+         Date myDate = new Date();
+         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+         String date = dateFormat.format(myDate);
+   
+         int placement = scanInt("Please enter the swimmers placement: ");
+         
+         int minutes = scanInt("Enter time minutes only: ");
+         int seconds = scanInt("Enter time seconds only: ");
+         int miliseconds = scanInt("Enter time miliseconds only: ");
+               
+         competitions.add(new Competition(swimId, date, competitionName, placement, minutes, seconds, miliseconds));
+      }
+   }  
    
 }

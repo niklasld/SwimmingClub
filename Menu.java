@@ -17,7 +17,7 @@ public class Menu{
       }
     
    }
-   public void startMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+   public void startMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions){
       int choice = -1;
       while(run == 1){
          choice = file.scanInt("\t1. Log in \n\t2. Quit\n");
@@ -25,7 +25,7 @@ public class Menu{
          
             case 1:
                login(users);
-               mainMenu(users, records, coachRelations);
+               mainMenu(users, records, coachRelations, competitions);
                break;
             case 2:
                run=0;
@@ -37,7 +37,7 @@ public class Menu{
       }
    }
    
-   public void mainMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+   public void mainMenu(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions){
       if(loginMatch==true) {
          int choice = -1;
          while(run ==1) {         
@@ -119,19 +119,18 @@ public class Menu{
                case 8:
                   // search swimmers
                   try {
-                     swimSearch(users, records, coachRelations);
-                     file.updateFiles(users, records, coachRelations);
+                     swimSearch(users, records, coachRelations, competitions);
+                     file.updateFiles(users, records, coachRelations, competitions);
                   }
                   catch(Exception e) {
                      System.out.println(" number dosent match the swimmer ");
                   }
-                  
                   break;
                case 9:
                   // create user (admin menu)
                   if(admin == true) {
                      file.addUserFromInput(users);
-                     file.updateFiles(users, records, coachRelations);
+                     file.updateFiles(users, records, coachRelations, competitions);
                   }
                   break;
                case 10:
@@ -191,7 +190,7 @@ public class Menu{
       } 
    }
 
-   public void swimSearch(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+   public void swimSearch(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions){
       String search = file.scanString("Enter swimmer name; ");
       boolean result = false;
       int resCount = 0;
@@ -213,14 +212,14 @@ public class Menu{
          //file.addRecordFromInput(records);
 
          int selectId = file.scanInt("");
-         editSwimmer(selectId, users, records, coachRelations);
+         editSwimmer(selectId, users, records, coachRelations, competitions);
 
       } else {
          System.out.println("No match!");
       }
    }
 
-   public void editSwimmer(int swimId, ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations){
+   public void editSwimmer(int swimId, ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions){
       //System.out.println("edit " + users.get(swimId).getFirstName() + " " + users.get(swimId).getLastName() + "\n");
 
 
@@ -237,11 +236,12 @@ public class Menu{
          System.out.println("8. Add coach");
          System.out.println("9. Add record");
          System.out.println("10. Show/edit swim team");
-         System.out.println("11. Exit\n");
+         System.out.println("11. add swimmer to competition");
+         System.out.println("12. Exit\n");
          if(admin == true) {
             System.out.println("Admin menu: ");
-            System.out.println("12. Edit membership payment status");
-            System.out.println("13. show Membership price\n");
+            System.out.println("13. Edit membership payment status");
+            System.out.println("14. show Membership price\n");
          }
          int select = file.scanInt("Select option: ");
 
@@ -283,12 +283,12 @@ public class Menu{
             case 8:
                //add coach
                addCoach(coachRelations, users, swimId);
-               file.updateFiles(users, records,coachRelations); 
+               file.updateFiles(users, records,coachRelations, competitions); 
                break;
             case 9:
                //add record
                file.addRecordFromInput(swimId, records);
-               file.updateFiles(users, records, coachRelations);
+               file.updateFiles(users, records, coachRelations, competitions);
                break;
             case 10:
                //Show/edit swim team
@@ -312,7 +312,7 @@ public class Menu{
                      editTeam(coachRelations, users, swimId);
                      run = false;
                   } else if (choice == 2) {
-                     System.out.println("Alright 👍");
+                     System.out.println("Alright");
                      run = false;
                   } else {
                      System.out.println("Invalid action!");
@@ -321,10 +321,14 @@ public class Menu{
 
                break;
             case 11:
+               //add swimmer to competition
+               file.addCompetitionFromInput(competitions, users, swimId);
+               break;
+            case 12:
                //exit
                runEdit = false;
                break;
-            case 12:
+            case 13:
                //Edit membership payed status
                if(admin ==  true) {
                   System.out.println("User is currently set to "+users.get(swimId).getPayed()+"\nIf member status is true the swimmer has payed for its membership");
@@ -359,7 +363,7 @@ public class Menu{
                   }
                }
                break;
-            case 13:
+            case 14:
                if(admin == true) {
                   double price = users.get(swimId).getMemberShipPrice();
                   System.out.println("Swimmer is paying "+price+" per year.");
