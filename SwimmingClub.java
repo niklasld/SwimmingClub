@@ -9,7 +9,9 @@ public class SwimmingClub {
       //try and catch on every outOfBounds errors
       
       //new method for coaches: show my swimmers in training(måske)
-
+      //check lane record, more instances from the same ltype appears
+      // show my competitions (no print (if the user havent been to a competition?))
+      
       
       Files file = new Files();
       Menu menu = new Menu();
