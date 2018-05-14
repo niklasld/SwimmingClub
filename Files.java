@@ -199,7 +199,7 @@ public class Files {
       username = scanString("Enter username: ");
       password = scanString("Enter password: ");
       age = scanInt("Enter your age:");
-      choice = scanInt("1. Excercise Swimmer\n2. Competetive Swimmer");
+      choice = scanInt("1. Excercise Swimmer\n2. Competitive Swimmer");
       if(choice == 1){
          memberShip = "Excercise";        
       }
