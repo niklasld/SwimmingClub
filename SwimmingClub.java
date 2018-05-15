@@ -3,15 +3,6 @@ import java.text.*;
 
 public class SwimmingClub {
    public static void main(String[] args) {
-
-      // low priority: add show coached method
-      // low priority: missing date the record was set in checkclubbest method menu.java
-      //try and catch on every outOfBounds errors
-      
-      //new method for coaches: show my swimmers in training(måske)
-      //check lane record, more instances from the same ltype appears
-      // show my competitions (no print (if the user havent been to a competition?))
-      
       
       Files file = new Files();
       Menu menu = new Menu();

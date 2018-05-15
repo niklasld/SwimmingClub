@@ -56,7 +56,10 @@ public class Menu{
             switch(choice){
                case 1:
                   //check lane record (user)
-                  showRecords(records);
+                  showRecords(records, users, "200m_Crawl");
+                  showRecords(records, users, "500m_Crawl");
+                  showRecords(records, users, "200m_Freestyle");
+                  showRecords(records, users, "500m_Freestyle");
                   break;
                case 2:
                   //check personal best
@@ -183,16 +186,49 @@ public class Menu{
       }
    }
 
-   public void showRecords(ArrayList<Record> records) {
+   public void showRecords(ArrayList<Record> records, ArrayList<User> users, String discipline) {
+
+      int min=99;
+      int sec=9999;
+      int mili=999;
+      int recordId = -1;
+      
       for(Record record: records){
-         if(record.getSwimId() == loginId){
-            System.out.print(record.getDiscipline()+" ");
-            System.out.print(record.getDate()+" ");
-            System.out.print(record.getMinutes()+" ");
-            System.out.print(record.getSeconds()+" ");
-            System.out.println(record.getMiliseconds());
+         if(discipline.equals(record.getDiscipline())){
+            
+            if(discipline.equals(record.getDiscipline())) {
+               if(min > record.getMinutes()) {
+                  min = record.getMinutes(); 
+                  sec = record.getSeconds();
+                  mili = record.getMiliseconds();
+                  recordId = record.getSwimId();
+               } 
+               else if(min == record.getMinutes()){
+                  if(sec > record.getSeconds()){
+                     min = record.getMinutes(); 
+                     sec = record.getSeconds();
+                     mili = record.getMiliseconds();
+                     recordId = record.getSwimId();
+                  } 
+                  else if (sec == record.getSeconds()){
+                     if(mili > record.getMiliseconds()){
+                        min = record.getMinutes(); 
+                        sec = record.getSeconds();
+                        mili = record.getMiliseconds();
+                        recordId = record.getSwimId();
+                     }
+                  }
+               }
+            }
          }
-      } 
+      }
+      if(min == 99) {
+        System.out.println("No record for: "+"Discipline: "+discipline.replace("_"," ")+"\n"); 
+         
+      }
+      else {
+         System.out.println("Discipline: "+discipline.replace("_"," ")+"\nSwimmer: "+users.get(recordId).getNames()+"\nRecord:\t"+min+"min "+sec+"sec "+mili+"ms\n");
+      }
    }
 
    public void swimSearch(ArrayList<User> users, ArrayList<Record> records, ArrayList<CoachRelation> coachRelations, ArrayList<Competition> competitions){
@@ -384,9 +420,7 @@ public class Menu{
    }
    
    public void checkPersonalBest(ArrayList<Record> records, ArrayList<User> users, String discipline) {
-      // missing shows time for each discipline
-      
-      //discipline = "Nothingggg";
+
       int min=99;
       int sec=9999;
       int mili=999;
@@ -700,10 +734,15 @@ public class Menu{
    }
    
    public void showMyCompetitions(int loginId,ArrayList<Competition> competitions){
+      boolean match = false;
       for(Competition c : competitions) {
          if(loginId == c.getId()) {
             System.out.println("Event/Discipline: "+c.getCompetitionName().replace("_"," ")+"\n"+"Date: "+c.getDate()+"\n"+"Placement: "+c.getPlacement()+"\nTime: "+c.getTimeString()+"\n");
+            match = true;
          }
+      }
+      if(match == false) {
+         System.out.println("You have not been logged for any competitions");
       }
    }
    public void changeMembershipStatus(ArrayList<User> users,int swimId) {
